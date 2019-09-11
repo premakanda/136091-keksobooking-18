@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Piotr Yanushkevich](https://up.htmlacademy.ru/javascript/18/user/136091).
-* Наставник: `Неизвестно`.
+* Наставник: "Дмитрий Рябинин".
 
 ---
 
