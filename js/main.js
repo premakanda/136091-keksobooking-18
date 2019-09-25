@@ -5,10 +5,15 @@ var CHECKINS = ['12:00', '13:00', '14:00'];
 var CHECKOUTS = ['12:00', '13:00', '14:00'];
 var FEATURES = [ 'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
+
 var priceIndex;
 var roomsIndex;
 var guestsIndex;
 
+var userMapPins = document.querySelector('.map__pins');
+var userPinsTemplate = document.querySelector('#pin')
+  .content
+  .querySelector('.map__pin');
 var userMap = document.querySelector('.map');
 userMap.classList.remove('map--faded');
 
@@ -38,17 +43,14 @@ var generatePins = function (count) {
         photos: getRandomItem(PHOTOS),
       },
       location: {
-         x: getRandomItem(userMap.scrollWidth),
-         y: getRandomItem(userMap.scrollHeight)
+        x: getRandomItem(userMap.scrollWidth),
+        y: getRandomItem(userMap.scrollHeight)
       }
     });
   }
   return data;
 };
 
-
-var userMapPins = document.querySelector('.map__pins');
-var userPinsTemplate = document.querySelector('#pin')
 var renderPin = function () {
   var pinElement = userPinsTemplate.cloneNode(true);
 
@@ -62,7 +64,7 @@ var renderPin = function () {
 var renderMapPins = function (arr) {
   var fragment = document.createDocumentFragment();
   for (var t = 0; t < arr.length; t++) {
-    fragment.appendChild(generatePoints(arr[t]));
+    fragment.appendChild(renderPin(arr[t]));
   }
   userMapPins.appendChild(fragment);
 };
