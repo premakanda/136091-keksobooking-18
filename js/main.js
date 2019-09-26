@@ -1,11 +1,9 @@
 'use strict';
-
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKINS = ['12:00', '13:00', '14:00'];
 var CHECKOUTS = ['12:00', '13:00', '14:00'];
-var FEATURES = [ 'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
-
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var priceIndex;
 var roomsIndex;
 var guestsIndex;
@@ -16,6 +14,10 @@ var userPinsTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 var userMap = document.querySelector('.map');
 userMap.classList.remove('map--faded');
+
+var getRandomInt = function (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
 
 var getRandomItem = function (arr) {
   var randomIndex = Math.floor(Math.random() * arr.length);
@@ -43,20 +45,19 @@ var generatePins = function (count) {
         photos: getRandomItem(PHOTOS),
       },
       location: {
-        x: getRandomItem(userMap.scrollWidth),
-        y: getRandomItem(userMap.scrollHeight)
+        x: getRandomInt(0, userMap.offsetWidth),
+        y: getRandomInt(130, 630)
       }
     });
   }
   return data;
 };
 
-var renderPin = function () {
+var renderPin = function (obj) {
   var pinElement = userPinsTemplate.cloneNode(true);
-
-  pinElement.textContent = src="{{author.avatar}}";
-  pinElement.style="left: {{location.x}}px; top: {{location.y}}px;"
-  pinElement.textContent = alt="{{заголовок объявления}}";
+  pinElement.style.left = obj.location.x + 'px';
+  pinElement.style.top = obj.location.y + 'px';
+  pinElement.querySelector('img').src = obj.author.avatars;
 
   return pinElement;
 };
