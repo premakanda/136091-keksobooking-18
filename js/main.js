@@ -72,3 +72,31 @@ var renderMapPins = function (arr) {
 
 var pins = generatePins(8);
 renderMapPins(pins);
+
+//Задание: больше деталей
+var userPromoTemplate = document.querySelector('#card').content;
+var mapFilters = document.querySelector('.map__filters-container');
+
+var renderCard = function () {
+  var cardElement = userPromoTemplate.cloneNode(true);
+    cardElement.querySelector('.popup__title') = offer.title;
+    cardElement.querySelector('.popup__text--address') = offer.address;
+    cardElement.querySelector('.popup__text--price') = offer.price + ' ₽/ночь';
+    cardElement.querySelector('.popup__type') = offer.type;
+    cardElement.querySelector('.popup__text--capacity') = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
+    cardElement.querySelector('.popup__text--time') = 'Заезд после ' + offer.checkin + ' , выезд до ' +  offer.checkout;
+    cardElement.querySelector('.popup__features') = offer.features;
+    cardElement.querySelector('.popup__description') = offer.description;
+    cardElement.querySelector('.popup__photos').src = offer.photos;
+    cardElement.querySelector('.popup__avatar').src = offer.avatar;
+
+  return cardElement;
+};
+
+var renderCards = function (arr) {
+  var fragment = document.createDocumentFragment();
+  for (var t = 0; t < arr.length; t++) {
+    fragment.appendChild(renderCard(arr[t]));
+  }
+  userMap.insertBefore(fragment, mapFilters);
+};
