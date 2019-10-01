@@ -77,26 +77,24 @@ renderMapPins(pins);
 var userPromoTemplate = document.querySelector('#card').content;
 var mapFilters = document.querySelector('.map__filters-container');
 
-var renderCard = function () {
+var cardObj = function () {
   var cardElement = userPromoTemplate.cloneNode(true);
-    cardElement.querySelector('.popup__title') = offer.title;
-    cardElement.querySelector('.popup__text--address') = offer.address;
-    cardElement.querySelector('.popup__text--price') = offer.price + ' ₽/ночь';
-    cardElement.querySelector('.popup__type') = offer.type;
-    cardElement.querySelector('.popup__text--capacity') = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
-    cardElement.querySelector('.popup__text--time') = 'Заезд после ' + offer.checkin + ' , выезд до ' +  offer.checkout;
-    cardElement.querySelector('.popup__features') = offer.features;
-    cardElement.querySelector('.popup__description') = offer.description;
-    cardElement.querySelector('.popup__photos').src = offer.photos;
-    cardElement.querySelector('.popup__avatar').src = offer.avatar;
-
+  cardElement.querySelector('.popup__title').textContent = generatePins.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = generatePins.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = generatePins.offer.price + ' ₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = generatePins.offer.type;
+  cardElement.querySelector('.popup__text--capacity').textContent = generatePins.offer.rooms + ' комнаты для ' + generatePins.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + generatePins.offer.checkin + ' , выезд до ' + generatePins.offer.checkout;
+  cardElement.querySelector('.popup__features li').textContent = generatePins.offer.features;
+  cardElement.querySelector('.popup__description').textContent = generatePins.offer.description;
+  cardElement.querySelector('.popup__photos img').src = generatePins.offer.photos;
+  cardElement.querySelector('.popup__avatar').src = generatePins.offer.avatar;
   return cardElement;
 };
 
-var renderCards = function (arr) {
+
+var openCard = function () {
   var fragment = document.createDocumentFragment();
-  for (var t = 0; t < arr.length; t++) {
-    fragment.appendChild(renderCard(arr[t]));
-  }
+  fragment.appendChild(cardObj);
   userMap.insertBefore(fragment, mapFilters);
 };
