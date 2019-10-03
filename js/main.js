@@ -76,7 +76,6 @@ renderMapPins(pins);
 // Задание: больше деталей
 var cardTemplate = document.querySelector('#card').content;
 var photoTemplate = cardTemplate.querySelector('.popup__photo');
-var avatarTemplate = cardTemplate.querySelector('.popup__avatar');
 var mapFilters = document.querySelector('.map__filters-container');
 
 var renderCard = function (dataObj) {
@@ -104,10 +103,13 @@ var renderCard = function (dataObj) {
 
   cardElement.querySelector('.popup__description').textContent = dataObj.offer.description;
 
-  for (var k = 0; k < dataObj.author.avatars.length; k++) {
-    var avatarElement = avatarTemplate.cloneNode(true);
-    avatarElement.src = dataObj.author.avatars[k];
-  }
+  // for (var k = 0; k < dataObj.author.avatars.length; k++) {
+  //   var avatarElement = avatarTemplate.cloneNode(true);
+  //   avatarElement.src = dataObj.author.avatars[k];
+  // }
+
+  cardElement.querySelector('.popup__avatar').src = dataObj.author.avatars;
+
   return cardElement;
 };
 
