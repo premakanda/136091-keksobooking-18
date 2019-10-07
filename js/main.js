@@ -1,4 +1,5 @@
 'use strict';
+
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKINS = ['12:00', '13:00', '14:00'];
 var CHECKOUTS = ['12:00', '13:00', '14:00'];
@@ -119,9 +120,9 @@ openCard(pins[0]);
 var ENTER_KEYCODE = 13;
 var pinMain = cardTemplate.querySelector('.map__pin--main');
 var adForm = cardTemplate.querySelector('.ad-form');
-var POSITION_PIN = { top: 200, left: 300 };
 
-var activeItem = function (item, value) {
+var disableItem = function (item) {
+  var item = document.querySelectorAll(item);
   for (var i = 0; i < item.length; i++) {
     item[i].disabled = true;
   }
@@ -130,8 +131,8 @@ var activeItem = function (item, value) {
 var activePage = function () {
   userMap.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  activeItem(input, true);
-  activeItem(select, true)
+  disableItem(input, true);
+  disableItem(select, true)
 };
 
 var inActivePage = function () {
@@ -151,27 +152,38 @@ pinMain.addEventListener('keydown', function (evt) {
   }
 });
 
-var positionPin = function () {
-  pinMain.offsetWidth =
-  pinMain.offsetHeight =
+var getPins = function (element) {
+  element.left = Math.round(element.offsetLeft + element.offsetWidth / 2);
+
+  return element;
 };
 
 var userSetAdress = document.querySelector('#address');
 
-userSetAdress.addEventListener('input', function (evt) {
-  var target = evt.target;
-  if (target.value.length < 2) {
-    target.setCustomValidity( POSITION_PIN.left +'px' + ' расстояние до острого конца по горизонтали, 200 + расстояние до острого конца по вертикали300 + расстояние до острого конца по горизонтали, 200 + расстояние до острого конца по вертикали');
-  } else {
-    target.setCustomValidity('');
-  }
-});
+var setAddress = function () {
+  var position = getPins(pinMain);
+  userSetAdress.value = position.left + ', ' + position.top;
+};
+// function calculatePin() {
+// }
+
+
 
 var userSetRoom = document.querySelector('#room_number');
 var userSetCepacity = document.querySelector('#capacity');
+var onSubmitButton = document.querySelector('.ad-form__submit');
 
-userSetCepacity.addEventListener('invalid', function () {
-  if (userSetRoom !== userSetCepacity) {
-    userSetCepacity.setCustomValidity('количество гостей не подходит под количество комнат');
+
+onSubmitButton.addEventListener('click', function () {
+
+  if (userSetRoom.value > 3 && userSetCepacity.value > 0) {
+    userSetCepacity.setCustomValidity('Гостей размещать нельзя');
+  } else if (userSetCepacity.value > userSetRoom.value) {
+    userSetCepacity.setCustomValidity('Гостей не должно быть больше чем комнат');
+  } else {
+    userSetCepacity.setCustomValidity('');
   }
+
 });
+
+
