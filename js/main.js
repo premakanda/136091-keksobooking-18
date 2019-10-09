@@ -122,25 +122,24 @@ var ENTER_KEYCODE = 13;
 var pinMain = userMap.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 
-var disableItem = function (item) {
-  var items = document.querySelectorAll(item);
-  for (var i = 0; i < item.length; i++) {
-    items[i].disabled = true;
+var setdisabled = function (list, value) {
+  for (var i = 0; i < list.length; i++) {
+    list[i].disabled = value;
   }
 };
+
+var list = mapFilters.querySelectorAll('select, fieldset');
 
 var activatePage = function () {
   userMap.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  disableItem(input, true);
-  disableItem(select, true)
+  setdisabled(list, true);
 };
 
 var inActivatePage = function () {
   userMap.classList.add('map--faded');
   adForm.classList.add('ad-form--disabled');
-  activeItem(input, false);
-  activeItem(select, false)
+  setdisabled(list, false);
 };
 
 pinMain.addEventListener('mousedown', function () {
@@ -152,38 +151,41 @@ pinMain.addEventListener('keydown', function (evt) {
     activatePage();
   }
 });
-// расчет положения
-var getPins = function (element) {
-  element.left = Math.round(element.offsetLeft + element.offsetWidth / 2);
 
-  return element;
+inActivatePage();
+// расчет положения
+var getMainPinsCoords = function () {
+  var x = pinMain.offsetLeft + pinMain.offsetWidth / 2;
+  var y = pinMain.offsetTop + pinMain.Top + 15;
+  return [x, y];
 };
 
 var userSetAdress = document.querySelector('#address');
 
-var setAddress = function () {
-  var position = getPins(pinMain);
-  userSetAdress.value = position.left + ', ' + position.top;
+var setAddress = function (coords) {
+  userSetAdress.value = coords[0] + ', ' + coords[1];
 };
+
+var coords = getMainPinsCoords();
+setAddress(coords);
 
 var userSetRoom = document.querySelector('#room_number');
 var userSetCepacity = document.querySelector('#capacity');
-var onSubmitButton = document.querySelector('.ad-form__submit');
+// var onSubmitButton = document.querySelector('.ad-form__submit');
 
-
-var  checkCapacity = function () {
-};
-
-onSubmitButton.addEventListener('click', function () {
-
-  if (userSetRoom.value > 3 && userSetCepacity.value > 0) {
-    userSetCepacity.setCustomValidity('Гостей размещать нельзя');
-  } else if (userSetCepacity.value > userSetRoom.value) {
-    userSetCepacity.setCustomValidity('Гостей не должно быть больше чем комнат');
+var checkCapacity = function () {
+  if ((userSetRoom < userSetCepacity) || (userSetRoom !== 100 && userSetCepacity === 0) || (userSetRoom === 100 && userSetCepacity !== 0)) {
+    userSetCepacity.setCustomValidity('Выберите больше комнат или меньше гостей');
   } else {
     userSetCepacity.setCustomValidity('');
   }
 
+};
+
+userSetRoom.addEventListener('change', function () {
+  checkCapacity();
 });
 
-
+userSetCepacity.addEventListener('change', function () {
+  checkCapacity();
+});
