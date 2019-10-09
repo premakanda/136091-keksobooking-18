@@ -118,24 +118,25 @@ openCard(pins[0]);
 
 // Задание подробности
 var ENTER_KEYCODE = 13;
-var pinMain = cardTemplate.querySelector('.map__pin--main');
-var adForm = cardTemplate.querySelector('.ad-form');
+
+var pinMain = userMap.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
 
 var disableItem = function (item) {
-  var item = document.querySelectorAll(item);
+  var items = document.querySelectorAll(item);
   for (var i = 0; i < item.length; i++) {
-    item[i].disabled = true;
+    items[i].disabled = true;
   }
 };
 
-var activePage = function () {
+var activatePage = function () {
   userMap.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   disableItem(input, true);
   disableItem(select, true)
 };
 
-var inActivePage = function () {
+var inActivatePage = function () {
   userMap.classList.add('map--faded');
   adForm.classList.add('ad-form--disabled');
   activeItem(input, false);
@@ -143,15 +144,15 @@ var inActivePage = function () {
 };
 
 pinMain.addEventListener('mousedown', function () {
-  activePage();
+  activatePage();
 });
 
 pinMain.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    activePage();
+    activatePage();
   }
 });
-
+// расчет положения
 var getPins = function (element) {
   element.left = Math.round(element.offsetLeft + element.offsetWidth / 2);
 
@@ -164,15 +165,14 @@ var setAddress = function () {
   var position = getPins(pinMain);
   userSetAdress.value = position.left + ', ' + position.top;
 };
-// function calculatePin() {
-// }
-
-
 
 var userSetRoom = document.querySelector('#room_number');
 var userSetCepacity = document.querySelector('#capacity');
 var onSubmitButton = document.querySelector('.ad-form__submit');
 
+
+var  checkCapacity = function () {
+};
 
 onSubmitButton.addEventListener('click', function () {
 
