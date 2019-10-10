@@ -188,21 +188,10 @@ var checkRoomsAndGuests = function () {
   var roomValue = parseInt(roomNumberSelect.value);
   var capacityValue = parseInt(capacitySelect.value);
 
-
-  if (roomValue === 1 && capacityValue !== 1) {
-    roomNumberSelect.setCustomValidity('Количество допустимых гостей для 1 комнаты, не должно превышать 1');
-
-  } else if (roomValue === 2 && capacityValue <= 0 || roomValue === 2 && capacityValue > 2) {
-    roomNumberSelect.setCustomValidity('Количество допустимых гостей для 2 комнат, не должно превышать 2');
-
-  } else if (roomValue === 3 && capacityValue <= 0 || roomValue === 2 && capacityValue > 3) {
-    roomNumberSelect.setCustomValidity('Количество допустимых гостей для 3 комнат, не должно превышать 3');
-
-  } else if (roomValue === 0 && capacityValue !== 0) {
-    roomNumberSelect.setCustomValidity('100 комнат не для гостей');
-
+  if ((roomValue < capacityValue) || (roomValue === 100 && capacityValue !== 0) || (roomValue !== 100 && capacityValue === 0)) {
+    capacitySelect.setCustomValidity('выбранное количество гостей не подходит под количество комнат');
   } else {
-    roomNumberSelect.setCustomValidity('');
+    capacitySelect.setCustomValidity('');
   }
 };
 
