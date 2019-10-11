@@ -15,6 +15,7 @@ var userPinsTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 var userMap = document.querySelector('.map');
 
+
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -169,18 +170,6 @@ var setAddress = function (coords) {
 var coords = getMainPinsCoords();
 setAddress(coords);
 
-// var userSetRoom = document.querySelector('#room_number');
-// var userSetCepacity = document.querySelector('#capacity');
-// // var onSubmitButton = document.querySelector('.ad-form__submit');
-
-// var checkCapacity = function () {
-//   if ((userSetRoom.value < userSetCepacity.value) || (userSetRoom.value !== 100 && userSetCepacity.value === 0) || (userSetRoom.value === 100 && userSetCepacity.value !== 0)) {
-//     userSetCepacity.setCustomValidity('Выберите больше комнат или меньше гостей');
-//   } else {
-//     userSetCepacity.setCustomValidity('');
-//   }
-// };
-
 var roomNumberSelect = document.querySelector('#room_number');
 var capacitySelect = document.querySelector('#capacity');
 
@@ -201,3 +190,99 @@ roomNumberSelect.addEventListener('change', function () {
 capacitySelect.addEventListener('change', function () {
   checkRoomsAndGuests();
 });
+
+// Задание доверяй но проверяй
+var mapPin = userMap.querySelector('.map__pin');
+var pinPopup = userMap.querySelector('.popup');
+var pinPopupClose = pinPopup.querySelector('.popup__close');
+
+var openPopup = function () {
+  pinPopup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  pinPopup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === window.ESC_KEYCODE) {
+    closePopup();
+  }
+};
+mapPin.addEventListener('click', function () {
+  openPopup();
+});
+
+mapPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === window.ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+pinPopupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+pinPopupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === window.ENTER_KEYCODE) {
+    closePopup();
+  }
+});
+
+var types = {
+  palace: {
+    name: 'Дворец',
+    minPrice: '10000'
+  },
+  flat: {
+    name: 'Квартира',
+    minPrice: '1000'
+  },
+  bungalo: {
+    name: 'Бунгало',
+    minPrice: '0'
+  },
+  house: {
+    name: 'Дом',
+    minPrice: '5000'
+  }
+};
+
+var titleElement = document.querySelector('#title');
+var priceElement = document.querySelector('#price');
+var roomTypeElement = document.querySelector('#type');
+var timeInElement = document.querySelector('#timein');
+var timeOutElement = document.querySelector('#timeout');
+
+
+var changeMinPrice = function () {
+  var currentValue = roomTypeElement.value;
+  priceElement.min = types[currentValue].minPrice;
+  priceElement.placeholder = types[currentValue].minPrice;
+};
+
+var changeTimeOut = function () {
+  timeOutElement.value = timeInElement.value;
+};
+
+var changeTimeIn = function () {
+  timeInElement.value = timeOutElement.value;
+};
+
+titleElement.addEventListener('invalid', function () {
+  if (titleElement.validity.tooShort) {
+    titleElement.setCustomValidity('Заголовок объявления должен состоять минимум из 30 символов');
+  } else if (titleElement.validity.tooLong) {
+    titleElement.setCustomValidity('Заголовок объявления не должен превышать 100 символов');
+  } else if (titleElement.validity.valueMissing) {
+    titleElement.setCustomValidity('Обязательное поле');
+  } else {
+    titleElement.setCustomValidity('');
+  }
+});
+
+roomTypeElement.addEventListener('change', changeMinPrice);
+timeInElement.addEventListener('change', changeTimeOut);
+timeOutElement.addEventListener('change', changeTimeIn);
