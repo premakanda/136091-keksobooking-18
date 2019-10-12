@@ -193,7 +193,7 @@ capacitySelect.addEventListener('change', function () {
 
 // Задание доверяй но проверяй
 var mapPin = userMap.querySelector('.map__pin');
-var pinPopup = userMap.querySelector('.popup');
+var pinPopup = userMap.querySelector('.map__card');
 var pinPopupClose = pinPopup.querySelector('.popup__close');
 
 var openPopup = function () {
@@ -215,11 +215,11 @@ mapPin.addEventListener('click', function () {
   openPopup();
 });
 
-mapPin.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === window.ENTER_KEYCODE) {
-    openPopup();
-  }
-});
+// mapPin.addEventListener('keydown', function (evt) {
+//   if (evt.keyCode === window.ENTER_KEYCODE) {
+//     openPopup();
+//   }
+// });
 
 pinPopupClose.addEventListener('click', function () {
   closePopup();
@@ -257,17 +257,19 @@ var timeInElement = document.querySelector('#timein');
 var timeOutElement = document.querySelector('#timeout');
 
 
-var changeMinPrice = function () {
+var changeMinPriceHandler = function () {
   var currentValue = roomTypeElement.value;
   priceElement.min = types[currentValue].minPrice;
   priceElement.placeholder = types[currentValue].minPrice;
 };
 
-var changeTimeOut = function () {
+changeMinPriceHandler();
+
+var changeTimeOutHandler = function () {
   timeOutElement.value = timeInElement.value;
 };
 
-var changeTimeIn = function () {
+var changeTimeInHandler = function () {
   timeInElement.value = timeOutElement.value;
 };
 
@@ -283,6 +285,6 @@ titleElement.addEventListener('invalid', function () {
   }
 });
 
-roomTypeElement.addEventListener('change', changeMinPrice);
-timeInElement.addEventListener('change', changeTimeOut);
-timeOutElement.addEventListener('change', changeTimeIn);
+roomTypeElement.addEventListener('change', changeMinPriceHandler);
+timeInElement.addEventListener('change', changeTimeOutHandler);
+timeOutElement.addEventListener('change', changeTimeInHandler);
