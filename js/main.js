@@ -15,7 +15,6 @@ var userPinsTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 var userMap = document.querySelector('.map');
 
-
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -54,11 +53,41 @@ var generatePins = function (count) {
   return data;
 };
 
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === window.ESC_KEYCODE) {
+    closePopup();
+  }
+};
+// mapPin.addEventListener('click', function () {
+//   openPopup();
+// });
+
+// mapPin.addEventListener('keydown', function (evt) {
+//   if (evt.keyCode === window.ENTER_KEYCODE) {
+//     openPopup();
+//   }
+// });
+
+// pinPopupClose.addEventListener('click', function () {
+//   closePopup();
+// });
+
+// pinPopupClose.addEventListener('keydown', function (evt) {
+//   if (evt.keyCode === window.ENTER_KEYCODE) {
+//     closePopup();
+//   }
+// });
+
 var renderPin = function (obj) {
   var pinElement = userPinsTemplate.cloneNode(true);
   pinElement.style.left = obj.location.x + 'px';
   pinElement.style.top = obj.location.y + 'px';
   pinElement.querySelector('img').src = obj.author.avatars;
+
+  pinElement.addEventListener('click', function() {
+    openCard(obj);
+  });
 
   return pinElement;
 };
@@ -75,9 +104,17 @@ var pins = generatePins(8);
 renderMapPins(pins);
 
 // Задание: больше деталей
-var cardTemplate = document.querySelector('#card').content;
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var photoTemplate = cardTemplate.querySelector('.popup__photo');
 var mapFilters = document.querySelector('.map__filters-container');
+
+var closePopup = function () {
+  var cardElement = userMap.querySelector('.map__card');
+  if (cardElement) {
+    cardElement.remove();
+    document.removeEventListener('keydown', onPopupEscPress);
+  }
+};
 
 var renderCard = function (dataObj) {
   var cardElement = cardTemplate.cloneNode(true);
@@ -106,16 +143,30 @@ var renderCard = function (dataObj) {
 
   cardElement.querySelector('.popup__avatar').src = dataObj.author.avatars;
 
+  cardElement.querySelector('.popup__close').addEventListener('click', function() {
+    closePopup();
+  });
+
+
   return cardElement;
 };
+
+
+// var onPopupEscPress = function (evt) {
+//   if (evt.keyCode === window.ESC_KEYCODE) {
+//     closePopup();
+//   }
+// };
 
 var openCard = function (obj) {
   var card = renderCard(obj);
   userMap.insertBefore(card, mapFilters);
+  if (obj.keyCode === window.ESC_KEYCODE) {
+    closePopup();
+  }
 };
 
-openCard(pins[0]);
-
+// openCard(pins[0]);
 
 // Задание подробности
 var ENTER_KEYCODE = 13;
@@ -187,49 +238,12 @@ var checkRoomsAndGuests = function () {
 roomNumberSelect.addEventListener('change', function () {
   checkRoomsAndGuests();
 });
+
 capacitySelect.addEventListener('change', function () {
   checkRoomsAndGuests();
 });
 
 // Задание доверяй но проверяй
-var mapPin = userMap.querySelector('.map__pin');
-var pinPopup = userMap.querySelector('.map__card');
-var pinPopupClose = pinPopup.querySelector('.popup__close');
-
-var openPopup = function () {
-  pinPopup.classList.remove('hidden');
-  document.addEventListener('keydown', onPopupEscPress);
-};
-
-var closePopup = function () {
-  pinPopup.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscPress);
-};
-
-var onPopupEscPress = function (evt) {
-  if (evt.keyCode === window.ESC_KEYCODE) {
-    closePopup();
-  }
-};
-mapPin.addEventListener('click', function () {
-  openPopup();
-});
-
-// mapPin.addEventListener('keydown', function (evt) {
-//   if (evt.keyCode === window.ENTER_KEYCODE) {
-//     openPopup();
-//   }
-// });
-
-pinPopupClose.addEventListener('click', function () {
-  closePopup();
-});
-
-pinPopupClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === window.ENTER_KEYCODE) {
-    closePopup();
-  }
-});
 
 var types = {
   palace: {
@@ -255,7 +269,6 @@ var priceElement = document.querySelector('#price');
 var roomTypeElement = document.querySelector('#type');
 var timeInElement = document.querySelector('#timein');
 var timeOutElement = document.querySelector('#timeout');
-
 
 var changeMinPriceHandler = function () {
   var currentValue = roomTypeElement.value;
