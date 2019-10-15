@@ -53,39 +53,13 @@ var generatePins = function (count) {
   return data;
 };
 
-
-var onPopupEscPress = function (evt) {
-  if (evt.keyCode === window.ESC_KEYCODE) {
-    closePopup();
-  }
-};
-// mapPin.addEventListener('click', function () {
-//   openPopup();
-// });
-
-// mapPin.addEventListener('keydown', function (evt) {
-//   if (evt.keyCode === window.ENTER_KEYCODE) {
-//     openPopup();
-//   }
-// });
-
-// pinPopupClose.addEventListener('click', function () {
-//   closePopup();
-// });
-
-// pinPopupClose.addEventListener('keydown', function (evt) {
-//   if (evt.keyCode === window.ENTER_KEYCODE) {
-//     closePopup();
-//   }
-// });
-
 var renderPin = function (obj) {
   var pinElement = userPinsTemplate.cloneNode(true);
   pinElement.style.left = obj.location.x + 'px';
   pinElement.style.top = obj.location.y + 'px';
   pinElement.querySelector('img').src = obj.author.avatars;
 
-  pinElement.addEventListener('click', function() {
+  pinElement.addEventListener('click', function () {
     openCard(obj);
   });
 
@@ -143,30 +117,29 @@ var renderCard = function (dataObj) {
 
   cardElement.querySelector('.popup__avatar').src = dataObj.author.avatars;
 
-  cardElement.querySelector('.popup__close').addEventListener('click', function() {
+  cardElement.querySelector('.popup__close').addEventListener('click', function () {
     closePopup();
   });
-
 
   return cardElement;
 };
 
-
-// var onPopupEscPress = function (evt) {
-//   if (evt.keyCode === window.ESC_KEYCODE) {
-//     closePopup();
-//   }
-// };
-
-var openCard = function (obj) {
-  var card = renderCard(obj);
-  userMap.insertBefore(card, mapFilters);
-  if (obj.keyCode === window.ESC_KEYCODE) {
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === window.ESC_KEYCODE) {
     closePopup();
   }
 };
 
-// openCard(pins[0]);
+var openCard = function (obj) {
+  var oldCardElement = userMap.querySelector('.map__card');
+  var cardElement = renderCard(obj);
+  if (oldCardElement) { // если уже есть открытая карточка, просто заменяем ее на новую
+    userMap.replaceChild(cardElement, oldCardElement);
+  } else {
+    userMap.insertBefore(cardElement, mapFilters);
+    document.addEventListener('keydown', onPopupEscPress);
+  }
+};
 
 // Задание подробности
 var ENTER_KEYCODE = 13;
@@ -218,6 +191,8 @@ var setAddress = function (coords) {
   userSetAdress.value = coords[0] + ', ' + coords[1];
 };
 
+checkRoomsAndGuests();
+
 var coords = getMainPinsCoords();
 setAddress(coords);
 
@@ -225,8 +200,8 @@ var roomNumberSelect = document.querySelector('#room_number');
 var capacitySelect = document.querySelector('#capacity');
 
 var checkRoomsAndGuests = function () {
-  var roomValue = parseInt(roomNumberSelect.value);
-  var capacityValue = parseInt(capacitySelect.value);
+  var roomValue = parseInt(roomNumberSelect.value, 10);
+  var capacityValue = parseInt(capacitySelect.value, 10);
 
   if ((roomValue < capacityValue) || (roomValue === 100 && capacityValue !== 0) || (roomValue !== 100 && capacityValue === 0)) {
     capacitySelect.setCustomValidity('выбранное количество гостей не подходит под количество комнат');
