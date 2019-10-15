@@ -191,8 +191,6 @@ var setAddress = function (coords) {
   userSetAdress.value = coords[0] + ', ' + coords[1];
 };
 
-checkRoomsAndGuests();
-
 var coords = getMainPinsCoords();
 setAddress(coords);
 
@@ -276,3 +274,5 @@ titleElement.addEventListener('invalid', function () {
 roomTypeElement.addEventListener('change', changeMinPriceHandler);
 timeInElement.addEventListener('change', changeTimeOutHandler);
 timeOutElement.addEventListener('change', changeTimeInHandler);
+
+checkRoomsAndGuests();
