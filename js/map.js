@@ -2,7 +2,6 @@
 
 (function () {
 
-  var pinMain = window.data.userMap.querySelector('.map__pin--main');
   var adForm = document.querySelector('.ad-form');
 
   var setdisabled = function (list, value) {
@@ -25,11 +24,11 @@
     setdisabled(list, false);
   };
 
-  pinMain.addEventListener('mousedown', function () {
+  window.data.pinMain.addEventListener('mousedown', function () {
     activatePage();
   });
 
-  pinMain.addEventListener('keydown', function (evt) {
+  window.data.pinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.data.ENTER_KEYCODE) {
       activatePage();
     }

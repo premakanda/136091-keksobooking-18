@@ -69,4 +69,19 @@
   var pins = generatePins(8);
   renderMapPins(pins);
 
+  var getMainPinsCoords = function () {
+    var x = window.data.pinMain.offsetLeft + window.data.pinMain.offsetWidth / 2;
+    var y = window.data.pinMain.offsetTop + window.data.pinMain.Top + 15;
+    return [x, y];
+  };
+
+  var userSetAdress = document.querySelector('#address');
+
+  var setAddress = function (coords) {
+    userSetAdress.value = coords[0] + ', ' + coords[1];
+  };
+
+  var coords = getMainPinsCoords();
+  setAddress(coords);
+
 })();
