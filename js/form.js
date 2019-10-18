@@ -4,6 +4,23 @@
 
   var roomNumberSelect = document.querySelector('#room_number');
   var capacitySelect = document.querySelector('#capacity');
+  var adForm = document.querySelector('.ad-form');
+
+  var deactivate = function  () {
+    adForm.classList.remove('ad-form--disabled');
+  };
+
+  var activate = function  () {
+    adForm.classList.add('ad-form--disabled');
+  };
+
+  window.form = {
+    deactiv: deactivate,
+    activ: activate
+  };
+
+  adForm.classList.remove('ad-form--disabled');
+
 
   var checkRoomsAndGuests = function () {
     var roomValue = parseInt(roomNumberSelect.value, 10);

@@ -2,8 +2,6 @@
 
 (function () {
 
-  var adForm = document.querySelector('.ad-form');
-
   var setdisabled = function (list, value) {
     for (var i = 0; i < list.length; i++) {
       list[i].disabled = value;
@@ -14,13 +12,13 @@
 
   var activatePage = function () {
     window.data.userMap.classList.remove('map--faded');
-    adForm.classList.remove('ad-form--disabled');
+    window.form.deactivate();
     setdisabled(list, true);
   };
 
   var inActivatePage = function () {
     window.data.userMap.classList.add('map--faded');
-    adForm.classList.add('ad-form--disabled');
+    window.form.activate();
     setdisabled(list, false);
   };
 

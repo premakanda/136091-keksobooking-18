@@ -52,7 +52,7 @@
     pinElement.querySelector('img').src = obj.author.avatars;
 
     pinElement.addEventListener('click', function () {
-      window.openCard(obj);
+      window.card.openCard(obj);
     });
 
     return pinElement;

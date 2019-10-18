@@ -36,8 +36,17 @@
         y: moveEvt.clientY
       };
 
-      mainPinHandler.style.top = (mainPinHandler.offsetTop - shift.y) + 'px';
-      mainPinHandler.style.left = (mainPinHandler.offsetLeft - shift.x) + 'px';
+      var x = mainPinHandler.offsetLeft - shift.x;
+      var y = mainPinHandler.offsetTop - shift.y;
+
+      y = Math.min(350 + mainPinHandler.Top, y);
+      y = Math.max(600 - (mainPinHandler.Top + 15), y);
+
+      x = Math.max(0, x);
+      x = Math.min(1200 - mainPinHandler.offsetWidth, x);
+
+      mainPinHandler.style.top = y + 'px';
+      mainPinHandler.style.left = x + 'px';
 
     };
 
