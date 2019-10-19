@@ -6,17 +6,14 @@
   var capacitySelect = document.querySelector('#capacity');
   var adForm = document.querySelector('.ad-form');
 
-  var deactivate = function  () {
-    adForm.classList.remove('ad-form--disabled');
-  };
-
-  var activate = function  () {
-    adForm.classList.add('ad-form--disabled');
-  };
-
   window.form = {
-    deactiv: deactivate,
-    activ: activate
+    deactivate: function () {
+      adForm.classList.remove('ad-form--disabled');
+    },
+
+    activate: function () {
+      adForm.classList.add('ad-form--disabled');
+    }
   };
 
   adForm.classList.remove('ad-form--disabled');

@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+
+  var MAIN_PIN_TOP = 130;
+  var MAIN_PIN_BOTTOM = 630;
+  var MAIN_PIN_HEIGHT = 15;
+
   var mainPinHandler = window.data.pinMain;
   var getMainPinCoord = function () {
     var x = mainPinHandler.offsetLeft + mainPinHandler.offsetWidth / 2;
@@ -39,8 +44,8 @@
       var x = mainPinHandler.offsetLeft - shift.x;
       var y = mainPinHandler.offsetTop - shift.y;
 
-      y = Math.min(350 + mainPinHandler.Top, y);
-      y = Math.max(600 - (mainPinHandler.Top + 15), y);
+      y = Math.max(MAIN_PIN_TOP - (mainPinHandler.offsetHeight + MAIN_PIN_HEIGHT), y);
+      y = Math.min(MAIN_PIN_BOTTOM - (mainPinHandler.offsetHeight + MAIN_PIN_HEIGHT), y);
 
       x = Math.max(0, x);
       x = Math.min(1200 - mainPinHandler.offsetWidth, x);

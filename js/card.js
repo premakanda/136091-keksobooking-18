@@ -53,19 +53,17 @@
     }
   };
 
-  openCard = function (obj) {
-    var oldCardElement = window.data.userMap.querySelector('.map__card');
-    var cardElement = renderCard(obj);
-    if (oldCardElement) { // если уже есть открытая карточка, просто заменяем ее на новую
-      window.data.userMap.replaceChild(cardElement, oldCardElement);
-    } else {
-      window.data.userMap.insertBefore(cardElement, window.data.mapFilters);
-      document.addEventListener('keydown', onPopupEscPress);
-    }
-  };
-
   window.card = {
-    open: openCard;
+    openCard: function (obj) {
+      var oldCardElement = window.data.userMap.querySelector('.map__card');
+      var cardElement = renderCard(obj);
+      if (oldCardElement) { // если уже есть открытая карточка, просто заменяем ее на новую
+        window.data.userMap.replaceChild(cardElement, oldCardElement);
+      } else {
+        window.data.userMap.insertBefore(cardElement, window.data.mapFilters);
+        document.addEventListener('keydown', onPopupEscPress);
+      }
+    }
   };
 
 })();
