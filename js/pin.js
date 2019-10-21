@@ -69,6 +69,14 @@
   var pins = generatePins(8);
   renderMapPins(pins);
 
+  window.load(function (pin) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < 8; i++) {
+      fragment.appendChild(renderMapPins(pin[i]));
+    }
+    userMapPins.appendChild(fragment);
+  });
+
   var getMainPinsCoords = function () {
     var x = window.data.pinMain.offsetLeft + window.data.pinMain.offsetWidth / 2;
     var y = window.data.pinMain.offsetTop + window.data.pinMain.Top + 15;

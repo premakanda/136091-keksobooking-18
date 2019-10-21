@@ -8,16 +8,13 @@
 
   window.form = {
     deactivate: function () {
-      adForm.classList.remove('ad-form--disabled');
+      adForm.classList.add('ad-form--disabled');
     },
 
     activate: function () {
-      adForm.classList.add('ad-form--disabled');
+      adForm.classList.remove('ad-form--disabled');
     }
   };
-
-  adForm.classList.remove('ad-form--disabled');
-
 
   var checkRoomsAndGuests = function () {
     var roomValue = parseInt(roomNumberSelect.value, 10);
@@ -81,15 +78,19 @@
     timeInElement.value = timeOutElement.value;
   };
 
+  var checkCapacity = function (i) {
+    titleElement.setCustomValidity(i);
+  };
+
   titleElement.addEventListener('invalid', function () {
     if (titleElement.validity.tooShort) {
-      titleElement.setCustomValidity('Заголовок объявления должен состоять минимум из 30 символов');
+      checkCapacity('Заголовок объявления должен состоять минимум из 30 символов');
     } else if (titleElement.validity.tooLong) {
-      titleElement.setCustomValidity('Заголовок объявления не должен превышать 100 символов');
+      checkCapacity('Заголовок объявления не должен превышать 100 символов');
     } else if (titleElement.validity.valueMissing) {
-      titleElement.setCustomValidity('Обязательное поле');
+      checkCapacity('Обязательное поле');
     } else {
-      titleElement.setCustomValidity('');
+      checkCapacity('');
     }
   });
 
