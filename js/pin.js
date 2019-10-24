@@ -68,14 +68,58 @@
 
   var pins = generatePins(8);
   renderMapPins(pins);
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var main = document.querySelector('main');
 
-  window.load(function (pin) {
+  var onError = function (message) {
+    var errorElement = errorTemplate.cloneNode(true);
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < 8; i++) {
-      fragment.appendChild(renderMapPins(pin[i]));
-    }
-    userMapPins.appendChild(fragment);
-  });
+    var buttonError = errorElement.querySelector('.error__button');
+
+    fragment.appendChild(errorElement);
+    main.appendChild(fragment);
+    errorElement.querySelector('.error__message').textContent = message;
+
+    buttonError.addEventListener('click', function () {
+      errorElement.remove();
+    });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.data.ESC_KEYCODE) {
+        errorElement.remove();
+      }
+    });
+  };
+
+  var onSuccess = function (data) {
+    var errorElement = successTemplate.cloneNode(true);
+    var fragment = document.createDocumentFragment();
+
+    fragment.appendChild(errorElement);
+    main.appendChild(fragment);
+    errorElement.querySelector('.error__message').textContent = data;
+
+    document.addEventListener('click', function () {
+      errorElement .remove();
+    });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.data.ESC_KEYCODE) {
+        errorElement .remove();
+      }
+    });
+  };
+
+  window.load(onSuccess, onError);
+
+  // window.load(function (pin) {
+  //   var fragment = document.createDocumentFragment();
+  //   for (var i = 0; i < 8; i++) {
+  //     fragment.appendChild(renderMapPins(pin[i]));
+  //   }
+  //   userMapPins.appendChild(fragment);
+  // });
 
   var getMainPinsCoords = function () {
     var x = window.data.pinMain.offsetLeft + window.data.pinMain.offsetWidth / 2;
