@@ -52,7 +52,7 @@
     pinElement.querySelector('img').src = obj.author.avatars;
 
     pinElement.addEventListener('click', function () {
-      window.openCard(obj);
+      window.card.openCard(obj);
     });
 
     return pinElement;
@@ -68,5 +68,28 @@
 
   var pins = generatePins(8);
   renderMapPins(pins);
+
+  window.load(function (pin) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < 8; i++) {
+      fragment.appendChild(renderMapPins(pin[i]));
+    }
+    userMapPins.appendChild(fragment);
+  });
+
+  var getMainPinsCoords = function () {
+    var x = window.data.pinMain.offsetLeft + window.data.pinMain.offsetWidth / 2;
+    var y = window.data.pinMain.offsetTop + window.data.pinMain.Top + 15;
+    return [x, y];
+  };
+
+  var userSetAdress = document.querySelector('#address');
+
+  var setAddress = function (coords) {
+    userSetAdress.value = coords[0] + ', ' + coords[1];
+  };
+
+  var coords = getMainPinsCoords();
+  setAddress(coords);
 
 })();

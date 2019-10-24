@@ -1,23 +1,20 @@
 'use strict';
 
 (function () {
-  var getMainPinsCoords = function () {
-    var x = window.data.pinMain.offsetLeft + window.data.pinMain.offsetWidth / 2;
-    var y = window.data.pinMain.offsetTop + window.data.pinMain.Top + 15;
-    return [x, y];
-  };
-
-  var userSetAdress = document.querySelector('#address');
-
-  var setAddress = function (coords) {
-    userSetAdress.value = coords[0] + ', ' + coords[1];
-  };
-
-  var coords = getMainPinsCoords();
-  setAddress(coords);
 
   var roomNumberSelect = document.querySelector('#room_number');
   var capacitySelect = document.querySelector('#capacity');
+  var adForm = document.querySelector('.ad-form');
+
+  window.form = {
+    deactivate: function () {
+      adForm.classList.add('ad-form--disabled');
+    },
+
+    activate: function () {
+      adForm.classList.remove('ad-form--disabled');
+    }
+  };
 
   var checkRoomsAndGuests = function () {
     var roomValue = parseInt(roomNumberSelect.value, 10);
@@ -81,15 +78,19 @@
     timeInElement.value = timeOutElement.value;
   };
 
+  var checkCapacity = function (i) {
+    titleElement.setCustomValidity(i);
+  };
+
   titleElement.addEventListener('invalid', function () {
     if (titleElement.validity.tooShort) {
-      titleElement.setCustomValidity('Заголовок объявления должен состоять минимум из 30 символов');
+      checkCapacity('Заголовок объявления должен состоять минимум из 30 символов');
     } else if (titleElement.validity.tooLong) {
-      titleElement.setCustomValidity('Заголовок объявления не должен превышать 100 символов');
+      checkCapacity('Заголовок объявления не должен превышать 100 символов');
     } else if (titleElement.validity.valueMissing) {
-      titleElement.setCustomValidity('Обязательное поле');
+      checkCapacity('Обязательное поле');
     } else {
-      titleElement.setCustomValidity('');
+      checkCapacity('');
     }
   });
 
