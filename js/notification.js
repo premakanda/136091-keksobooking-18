@@ -8,22 +8,30 @@
 
   var onError = function (message) {
     var errorElement = errorTemplate.cloneNode(true);
-    var fragment = document.createDocumentFragment();
+    // var fragment = document.createDocumentFragment();
     var buttonError = errorElement.querySelector('.error__button');
 
-    fragment.appendChild(errorElement);
-    main.appendChild(fragment);
+    // fragment.appendChild(errorElement);
     errorElement.querySelector('.error__message').textContent = message;
+    main.appendChild(errorElement);
 
     buttonError.addEventListener('click', function () {
-      errorElement.remove();
+      closeMessage();
     });
+  };
 
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.data.ESC_KEYCODE) {
-        errorElement.remove();
-      }
-    });
+  var onEscPress = function (evt) {
+    if (evt.keyCode === window.data.ESC_KEYCODE) {
+      closeMessage();
+    }
+  };
+
+  var closeMessage = function () {
+    var errorElement = main.querySelector('.error');
+    if (errorElement) {
+      errorElement.remove();
+      document.addEventListener('keydown', onEscPress);
+    }
   };
 
   window.notification = {
