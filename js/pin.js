@@ -69,6 +69,12 @@
   var pins = generatePins(8);
   renderMapPins(pins);
 
+  var onSuccess = function (data) {
+    renderMapPins(data);
+  };
+
+  window.backend.load(onSuccess);
+
   // window.load(function (pin) {
   //   var fragment = document.createDocumentFragment();
   //   for (var i = 0; i < 8; i++) {

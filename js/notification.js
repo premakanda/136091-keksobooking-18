@@ -26,12 +26,7 @@
     });
   };
 
-  var onSuccess = function (data) {
-    window.pin.renderMapPins(data);
-  };
-
   window.notification = {
     showError: onError,
-    showSuccess: onSuccess
   };
 })();
