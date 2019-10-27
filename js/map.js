@@ -33,4 +33,9 @@
   });
 
   inActivatePage();
+
+  window.map = {
+    activatePage: activatePage,
+    inActivatePage: inActivatePage
+  };
 })();

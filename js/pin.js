@@ -71,6 +71,7 @@
 
   var onSuccess = function (data) {
     renderMapPins(data);
+    window.map.inActivatePage();
   };
 
   var onError = function (error) {
@@ -79,14 +80,6 @@
 
 
   window.backend.load(onSuccess, onError);
-
-  // window.load(function (pin) {
-  //   var fragment = document.createDocumentFragment();
-  //   for (var i = 0; i < 8; i++) {
-  //     fragment.appendChild(renderMapPins(pin[i]));
-  //   }
-  //   userMapPins.appendChild(fragment);
-  // });
 
   var getMainPinsCoords = function () {
     var x = window.data.pinMain.offsetLeft + window.data.pinMain.offsetWidth / 2;
