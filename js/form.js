@@ -111,7 +111,6 @@
     evt.preventDefault();
     var data = new FormData(adForm);
     window.backend.send(data, onSuccess, onError);
-
   });
 
   roomTypeElement.addEventListener('change', changeMinPriceHandler);
