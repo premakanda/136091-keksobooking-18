@@ -6,14 +6,18 @@
   var capacitySelect = document.querySelector('#capacity');
   var adForm = document.querySelector('.ad-form');
 
-  window.form = {
-    deactivate: function () {
-      adForm.classList.add('ad-form--disabled');
-    },
+  var deactivate = function () {
+    adForm.classList.add('ad-form--disabled');
+    adForm.reset();
+  };
 
-    activate: function () {
-      adForm.classList.remove('ad-form--disabled');
-    }
+  var activate = function () {
+    adForm.classList.remove('ad-form--disabled');
+  };
+
+  window.form = {
+    deactivate: deactivate,
+    activate: activate
   };
 
   var checkRoomsAndGuests = function () {
@@ -92,6 +96,22 @@
     } else {
       checkCapacity('');
     }
+  });
+
+  var onSuccess = function () {
+    deactivate();
+    window.map.deactivate();
+  };
+
+  var onError = function (errorMassage) {
+    window.notification.showError(errorMassage);
+  };
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    var data = new FormData(adForm);
+    window.backend.send(data, onSuccess, onError);
+
   });
 
   roomTypeElement.addEventListener('change', changeMinPriceHandler);
