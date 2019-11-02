@@ -2,23 +2,11 @@
 
 (function () {
 
+  // Соответствие количества комнат количеству гостей
   var roomNumberSelect = document.querySelector('#room_number');
   var capacitySelect = document.querySelector('#capacity');
   var adForm = document.querySelector('.ad-form');
-
-  var deactivate = function () {
-    adForm.classList.add('ad-form--disabled');
-    adForm.reset();
-  };
-
-  var activate = function () {
-    adForm.classList.remove('ad-form--disabled');
-  };
-
-  window.form = {
-    deactivate: deactivate,
-    activate: activate
-  };
+  var resetButton = document.querySelector('.ad-form__reset');
 
   var checkRoomsAndGuests = function () {
     var roomValue = parseInt(roomNumberSelect.value, 10);
@@ -39,7 +27,7 @@
     checkRoomsAndGuests();
   });
 
-  // Задание доверяй но проверяй
+  checkRoomsAndGuests();
 
   var types = {
     palace: {
@@ -66,14 +54,19 @@
   var timeInElement = document.querySelector('#timein');
   var timeOutElement = document.querySelector('#timeout');
 
+
+  // Цена
   var changeMinPriceHandler = function () {
     var currentValue = roomTypeElement.value;
     priceElement.min = types[currentValue].minPrice;
     priceElement.placeholder = types[currentValue].minPrice;
   };
 
+  roomTypeElement.addEventListener('change', changeMinPriceHandler);
+
   changeMinPriceHandler();
 
+  // Соответствие времени заезда и выезда
   var changeTimeOutHandler = function () {
     timeOutElement.value = timeInElement.value;
   };
@@ -82,6 +75,10 @@
     timeInElement.value = timeOutElement.value;
   };
 
+  timeInElement.addEventListener('change', changeTimeOutHandler);
+  timeOutElement.addEventListener('change', changeTimeInHandler);
+
+  // Заголовок объявления
   var checkCapacity = function (i) {
     titleElement.setCustomValidity(i);
   };
@@ -98,6 +95,20 @@
     }
   });
 
+  var deactivate = function () {
+    adForm.classList.add('ad-form--disabled');
+    adForm.reset();
+  };
+
+  var activate = function () {
+    adForm.classList.remove('ad-form--disabled');
+  };
+
+  window.form = {
+    deactivate: deactivate,
+    activate: activate
+  };
+
   var onSuccess = function () {
     deactivate();
     window.map.deactivate();
@@ -107,16 +118,30 @@
     window.notification.showError(errorMassage);
   };
 
+  // Сброс данных
+  var filter = document.querySelector('.map__filters');
+  var resetAllPageValues = function () {
+    adForm.reset();
+    filter.reset();
+    deactivate();
+    titleElement.style.border = 'none';
+    priceElement.style.border = 'none';
+  };
+
+  resetButton.addEventListener('click', function () {
+    resetAllPageValues();
+  });
+
+  // Отправка формы на сервер
+  var onLoad = function () {
+    deactivate();
+    window.notification.showSuccess();
+  };
+
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     var data = new FormData(adForm);
-    window.backend.send(data, onSuccess, onError);
+    window.backend.send(data, onSuccess, onError, onLoad);
   });
-
-  roomTypeElement.addEventListener('change', changeMinPriceHandler);
-  timeInElement.addEventListener('change', changeTimeOutHandler);
-  timeOutElement.addEventListener('change', changeTimeInHandler);
-
-  checkRoomsAndGuests();
 
 })();

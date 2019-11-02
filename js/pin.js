@@ -7,49 +7,14 @@
   .content
   .querySelector('.map__pin');
 
-  // var getRandomInt = function (min, max) {
-  //   return Math.floor(Math.random() * (max - min)) + min;
-  // };
-
-  // var getRandomItem = function (arr) {
-  //   var randomIndex = Math.floor(Math.random() * arr.length);
-  //   return arr[randomIndex];
-  // };
-
-  // var generatePins = function (count) {
-  //   var data = [];
-  //   for (var i = 0; i < count; i++) {
-  //     data.push({
-  //       author: {
-  //         avatars: 'img/avatars/user0' + (i + 1) + '.png'
-  //       },
-  //       offer: {
-  //         title: 'Заголовок предложения',
-  //         address: '600, 350',
-  //         price: getRandomItem(window.data.priceIndex),
-  //         type: getRandomItem(window.data.TYPES),
-  //         rooms: getRandomItem(window.data.roomsIndex),
-  //         guests: getRandomItem(window.data.guestsIndex),
-  //         checkin: getRandomItem(window.data.CHECKINS),
-  //         checkout: getRandomItem(window.data.CHECKOUTS),
-  //         features: window.data.FEATURES.slice(getRandomInt(0, window.data.FEATURES.length)),
-  //         description: 'Описание',
-  //         photos: window.data.PHOTOS.slice(getRandomInt(0, window.data.PHOTOS.length)),
-  //       },
-  //       location: {
-  //         x: getRandomInt(0, window.data.userMap.offsetWidth),
-  //         y: getRandomInt(130, 630)
-  //       }
-  //     });
-  //   }
-  //   return data;
-  // };
-
+  // Отрисовка объявления по шаблону
   var renderPin = function (obj) {
     var pinElement = userPinsTemplate.cloneNode(true);
+
     pinElement.style.left = obj.location.x + 'px';
     pinElement.style.top = obj.location.y + 'px';
     pinElement.querySelector('img').src = obj.author.avatars;
+    pinElement.querySelector('img').alt = obj.offer.title;
 
     pinElement.addEventListener('click', function () {
       window.card.openCard(obj);
@@ -69,32 +34,101 @@
   // var pins = generatePins(8);
   // renderMapPins(pins);
 
-  var onSuccess = function (data) {
-    renderMapPins(data);
-    window.map.inActivatePage();
-  };
+  // var onSuccess = function (data) {
+  //   renderMapPins(data);
+  //   window.map.inActivatePage();
+  // };
 
-  var onError = function (error) {
-    window.notification.showError(error);
-  };
+  // var onError = function (error) {
+  //   window.notification.showError(error);
+  // };
 
 
-  window.backend.load(onSuccess, onError);
+  // window.backend.load(onSuccess, onError);
 
   var getMainPinsCoords = function () {
-    var x = window.data.pinMain.offsetLeft + window.data.pinMain.offsetWidth / 2;
-    var y = window.data.pinMain.offsetTop + window.data.pinMain.Top + 15;
+    var x = pinMain.offsetLeft + pinMain.offsetWidth / 2;
+    var y = pinMain.offsetTop + pinMain.Top + 15;
     return [x, y];
   };
 
-  var userSetAdress = document.querySelector('#address');
+  // Перемещение главного пина на карте
+  var MAIN_PIN_TOP = 130;
+  var MAIN_PIN_BOTTOM = 630;
+  var MAIN_PIN_HEIGHT = 15;
+
+  var pinMain = document.querySelector('.map__pin--main');
+
+  var getMainPinCoord = function () {
+    var x = pinMain.offsetLeft + pinMain.offsetWidth / 2;
+    var y = pinMain.offsetTop + pinMain.Top + 15;
+    return [x, y];
+  };
 
   var setAddress = function (coords) {
+    pinMain.value = coords[0] + ', ' + coords[1];
     userSetAdress.value = coords[0] + ', ' + coords[1];
   };
 
-  var coords = getMainPinsCoords();
+  var coords = getMainPinCoord();
   setAddress(coords);
+
+  pinMain.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      var x = pinMain.offsetLeft - shift.x;
+      var y = pinMain.offsetTop - shift.y;
+
+      y = Math.max(MAIN_PIN_TOP - (pinMain.offsetHeight + MAIN_PIN_HEIGHT), y);
+      y = Math.min(MAIN_PIN_BOTTOM - (pinMain.offsetHeight + MAIN_PIN_HEIGHT), y);
+
+      x = Math.max(0, x);
+      x = Math.min(1200 - pinMain.offsetWidth, x);
+
+      pinMain.style.top = y + 'px';
+      pinMain.style.left = x + 'px';
+
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+
+  var userSetAdress = document.querySelector('#address');
+
+  var setAddresspin = function (coordspin) {
+    userSetAdress.value = coordspin[0] + ', ' + coordspin[1];
+  };
+
+  var coordspin = getMainPinsCoords();
+  setAddresspin(coordspin);
 
   window.pin = {
     renderMapPins: renderMapPins

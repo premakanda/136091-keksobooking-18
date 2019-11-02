@@ -10,9 +10,6 @@
     priceIndex: [1, 2],
     roomsIndex: [1, 2],
     guestsIndex: [1, 2],
-    ENTER_KEYCODE: 13,
-    ESC_KEYCODE: 27,
-    userMap: document.querySelector('.map'),
     mapFilters: document.querySelector('.map__filters-container'),
     pinMain: document.querySelector('.map__pin--main')
   };
