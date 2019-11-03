@@ -3,6 +3,7 @@
 (function () {
 
   // Соответствие количества комнат количеству гостей
+  var addressElement = document.querySelector('#address');
   var roomNumberSelect = document.querySelector('#room_number');
   var capacitySelect = document.querySelector('#capacity');
   var adForm = document.querySelector('.ad-form');
@@ -104,14 +105,20 @@
     adForm.classList.remove('ad-form--disabled');
   };
 
+  var setAddress = function (coords) {
+    addressElement.value = coords[0] + ', ' + coords[1];
+  };
+
   window.form = {
     deactivate: deactivate,
-    activate: activate
+    activate: activate,
+    setAddress: setAddress
   };
 
   var onSuccess = function () {
-    deactivate();
-    window.map.deactivate();
+    window.notification.showSuccess();
+    // deactivate();
+    window.map.inactivatePage();
   };
 
   var onError = function (errorMassage) {
@@ -121,7 +128,7 @@
   // Сброс данных
   var filter = document.querySelector('.map__filters');
   var resetAllPageValues = function () {
-    adForm.reset();
+    // adForm.reset();
     filter.reset();
     deactivate();
     titleElement.style.border = 'none';

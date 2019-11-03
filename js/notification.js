@@ -18,33 +18,36 @@
     });
   };
 
-  var onSuccess = function (message) {
+  var showSuccess = function () {
     var successElement = successTemplate.cloneNode(true);
 
-    successElement.querySelector('.success__message').textContent = message;
     main.appendChild(successElement);
 
-    document.addEventListener('click', function () {
-      closeMessage();
-    });
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onEscPress);
   };
 
   var onEscPress = function (evt) {
-    if (evt.keyCode === window.data.ESC_KEYCODE) {
+    if (evt.keyCode === window.utilits.ESC_KEYCODE) {
       closeMessage();
     }
   };
 
+  var onDocumentClick = function () {
+    closeMessage();
+  };
+
   var closeMessage = function () {
-    var errorElement = main.querySelector('.error');
-    if (errorElement) {
-      errorElement.remove();
-      document.addEventListener('keydown', onEscPress);
+    var messageElement = main.querySelector('.error, .success');
+    if (messageElement) {
+      messageElement.remove();
+      document.removeEventListener('click', onDocumentClick);
+      document.removeEventListener('keydown', onEscPress);
     }
   };
 
   window.notification = {
     showError: onError,
-    showSuccess: onSuccess
+    showSuccess: showSuccess
   };
 })();
