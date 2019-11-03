@@ -4,9 +4,11 @@
 
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var photoTemplate = cardTemplate.querySelector('.popup__photo');
+  var mapElement = document.querySelector('.map');
+  var mapFiltersElement = mapElement.querySelector('.map__filters-container');
 
   var closePopup = function () {
-    var cardElement = window.data.userMap.querySelector('.map__card');
+    var cardElement = mapElement.querySelector('.map__card');
     if (cardElement) {
       cardElement.remove();
       document.removeEventListener('keydown', onPopupEscPress);
@@ -38,7 +40,7 @@
 
     cardElement.querySelector('.popup__description').textContent = dataObj.offer.description;
 
-    cardElement.querySelector('.popup__avatar').src = dataObj.author.avatars;
+    cardElement.querySelector('.popup__avatar').src = dataObj.author.avatar;
 
     cardElement.querySelector('.popup__close').addEventListener('click', function () {
       closePopup();
@@ -55,12 +57,12 @@
 
   window.card = {
     openCard: function (obj) {
-      var oldCardElement = window.data.userMap.querySelector('.map__card');
+      var oldCardElement = mapElement.querySelector('.map__card');
       var cardElement = renderCard(obj);
       if (oldCardElement) { // если уже есть открытая карточка, просто заменяем ее на новую
-        window.data.userMap.replaceChild(cardElement, oldCardElement);
+        mapElement.replaceChild(cardElement, oldCardElement);
       } else {
-        window.data.userMap.insertBefore(cardElement, window.data.mapFilters);
+        mapElement.insertBefore(cardElement, mapFiltersElement);
         document.addEventListener('keydown', onPopupEscPress);
       }
     }

@@ -1,26 +1,27 @@
 'use strict';
 
 (function () {
-
+  // Перемещение главного пина на карте
   var MAIN_PIN_TOP = 130;
   var MAIN_PIN_BOTTOM = 630;
   var MAIN_PIN_HEIGHT = 15;
 
-  var mainPinHandler = window.data.pinMain;
+  var pinMain = document.querySelector('.map__pin--main');
+
   var getMainPinCoord = function () {
-    var x = mainPinHandler.offsetLeft + mainPinHandler.offsetWidth / 2;
-    var y = mainPinHandler.offsetTop + mainPinHandler.Top + 15;
+    var x = pinMain.offsetLeft + pinMain.offsetWidth / 2;
+    var y = pinMain.offsetTop + pinMain.Top + 15;
     return [x, y];
   };
 
   var setAddress = function (coords) {
-    window.data.pinMain.value = coords[0] + ', ' + coords[1];
+    pinMain.value = coords[0] + ', ' + coords[1];
   };
 
   var coords = getMainPinCoord();
   setAddress(coords);
 
-  mainPinHandler.addEventListener('mousedown', function (evt) {
+  pinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var startCoords = {
@@ -41,17 +42,19 @@
         y: moveEvt.clientY
       };
 
-      var x = mainPinHandler.offsetLeft - shift.x;
-      var y = mainPinHandler.offsetTop - shift.y;
+      var x = pinMain.offsetLeft - shift.x;
+      var y = pinMain.offsetTop - shift.y;
 
-      y = Math.max(MAIN_PIN_TOP - (mainPinHandler.offsetHeight + MAIN_PIN_HEIGHT), y);
-      y = Math.min(MAIN_PIN_BOTTOM - (mainPinHandler.offsetHeight + MAIN_PIN_HEIGHT), y);
+      y = Math.max(MAIN_PIN_TOP - (pinMain.offsetHeight + MAIN_PIN_HEIGHT), y);
+      y = Math.min(MAIN_PIN_BOTTOM - (pinMain.offsetHeight + MAIN_PIN_HEIGHT), y);
 
       x = Math.max(0, x);
-      x = Math.min(1200 - mainPinHandler.offsetWidth, x);
+      x = Math.min(1200 - pinMain.offsetWidth, x);
 
-      mainPinHandler.style.top = y + 'px';
-      mainPinHandler.style.left = x + 'px';
+      pinMain.style.top = y + 'px';
+      pinMain.style.left = x + 'px';
+
+      window.form.setAddress(getMainPinCoords());
 
     };
 
@@ -67,5 +70,14 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+  var getMainPinCoords = function () {
+    var x = pinMain.offsetLeft + pinMain.offsetWidth / 2;
+    var y = pinMain.offsetTop + pinMain.offsetHeight + 15;
+    return [x, y];
+  };
+
+  window.pinMain = {
+    getCoords: getMainPinCoords
+  };
 
 })();
