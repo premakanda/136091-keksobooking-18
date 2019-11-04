@@ -2,7 +2,7 @@
 
 (function () {
 
-  // var housingType = document.querySelector('#housing-type');
+  //  var housingType = document.querySelector('#housing-type');
 
   // var INPUT_VALUE = 'any';
 
