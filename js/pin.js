@@ -21,9 +21,15 @@
     return pinElement;
   };
 
+  // Количество пинов на странице
+  var PINS_ALL = 5;
+
+  // Выводим 5 пинов
+
   var renderMapPins = function (arr) {
+    var dataLength = arr.length > PINS_ALL ? PINS_ALL : arr.length;
     var fragment = document.createDocumentFragment();
-    for (var t = 0; t < arr.length; t++) {
+    for (var t = 0; t < dataLength; t++) {
       fragment.appendChild(renderPin(arr[t]));
     }
     userMapPins.appendChild(fragment);
