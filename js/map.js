@@ -2,6 +2,10 @@
 
 (function () {
 
+  var housingType = document.querySelector('#housing-type');
+  var pinMain = document.querySelector('.map__pin--main');
+  var data = [];
+
   var setdisabled = function (list, value) {
     for (var i = 0; i < list.length; i++) {
       list[i].disabled = value;
@@ -25,20 +29,33 @@
     setdisabled(list, true);
   };
 
-  window.data.pinMain.addEventListener('mousedown', function () {
+  pinMain.addEventListener('mousedown', function () {
     activatePage();
   });
 
-  window.data.pinMain.addEventListener('keydown', function (evt) {
+  pinMain.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.data.ENTER_KEYCODE) {
       activatePage();
     }
   });
 
-  var onSuccess = function (data) {
-    window.pin.render(data);
-    // renderMapPins(data);
-    // window.map.inActivatePage();
+  var filterByType = function (item) {
+    return housingType.value === 'any' ? true : item.offer.type === housingType.value;
+  };
+
+  var filterData = function (datam) {
+    return datam.filter(filterByType)
+      .slice(0, 5);
+  };
+
+  housingType.addEventListener('change', function () {
+    window.pin.clear();
+    window.pin.render(filterData(data));
+  });
+
+  var onSuccess = function (res) {
+    data = res;
+    window.pin.render(filterData(data));
   };
 
   var onError = function (error) {
