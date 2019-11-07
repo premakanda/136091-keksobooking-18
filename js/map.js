@@ -3,8 +3,23 @@
 (function () {
 
   var housingType = document.querySelector('#housing-type');
+  var housingPrice = document.querySelector('#housing-price');
+  var housingRooms = document.querySelector('#housing-rooms');
+  var housingGuests = document.querySelector('#housing-guests');
+  var filterElement = document.querySelector('.map__filters');
+  var featureCheckbox = document.querySelectorAll('#housing-features input');
+
   var pinMain = document.querySelector('.map__pin--main');
   var data = [];
+  var MAX_PIN = 5;
+
+  var price = {
+    MIN: 10000,
+    MAX: 50000,
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'high'
+  };
 
   var setdisabled = function (list, value) {
     for (var i = 0; i < list.length; i++) {
@@ -43,15 +58,57 @@
     return housingType.value === 'any' ? true : item.offer.type === housingType.value;
   };
 
-  var filterData = function (datam) {
-    return datam.filter(filterByType)
-      .slice(0, 5);
+  var filterByRooms = function (item) {
+    return housingRooms.value === 'any' ? true : item.offer.rooms === parseInt(housingRooms.value, 10);
   };
 
-  housingType.addEventListener('change', function () {
+  var filterByGuests = function (item) {
+    return housingGuests.value === 'any' ? true : item.offer.guests === parseInt(housingGuests.value, 10);
+  };
+
+  var filterByPrice = function (add) {
+    switch (housingPrice.value) {
+      case price.LOW:
+        return add.offer.price < price.MIN;
+      case price.MIDDLE:
+        return add.offer.price >= price.MIN && add.offer.price <= price.MAX;
+      case price.HIGH:
+        return add.offer.price > price.MAX;
+      default:
+        return true;
+    }
+  };
+
+  var filterByFeature = function (add) {
+
+    var features = [];
+
+    featureCheckbox.forEach(function (element) {
+      if (element.checked) {
+        features.push(element.value);
+      }
+    });
+
+    return features.every(function (el) {
+      return add.offer.features.includes(el);
+    });
+  };
+
+  var filterData = function (datam) {
+    return datam.filter(filterByType)
+      .filter(filterByRooms)
+      .filter(filterByGuests)
+      .filter(filterByPrice)
+      .filter(filterByFeature)
+      .slice(0, MAX_PIN);
+  };
+
+  var onFiltersChangeDebounce = window.debounce(function () {
     window.pin.clear();
     window.pin.render(filterData(data));
   });
+
+  filterElement.addEventListener('change', onFiltersChangeDebounce);
 
   var onSuccess = function (res) {
     data = res;
