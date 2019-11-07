@@ -6,10 +6,8 @@
   var housingPrice = document.querySelector('#housing-price');
   var housingRooms = document.querySelector('#housing-rooms');
   var housingGuests = document.querySelector('#housing-guests');
-  // var housingFeatures = document.querySelector('#housing-features');
-  // var filterElement = document.querySelector('.map__filters');
+  var filterElement = document.querySelector('.map__filters');
   var featureCheckbox = document.querySelectorAll('#housing-features input');
-
 
   var pinMain = document.querySelector('.map__pin--main');
   var data = [];
@@ -96,29 +94,21 @@
     });
   };
 
-  // var filterData = function (datam) {
-  //   return datam.filter(filterByType)
-  //     .slice(0, 5);
-  // };
-
   var filterData = function (datam) {
-    return datam.filter(function (item) {
-      return (
-        filterByType(item) &&
-        filterByRooms(item) &&
-        filterByGuests(item) &&
-        filterByPrice(item) &&
-        filterByFeature(item)
-      );
-    }).slice(0, MAX_PIN);
+    return datam.filter(filterByType)
+      .filter(filterByRooms)
+      .filter(filterByGuests)
+      .filter(filterByPrice)
+      .filter(filterByFeature)
+      .slice(0, MAX_PIN);
   };
 
-  // filterElement.addEventListener('change', window.debounce(filterData));
-
-  housingType.addEventListener('change', function () {
+  var onFiltersChangeDebounce = window.debounce(function () {
     window.pin.clear();
     window.pin.render(filterData(data));
   });
+
+  filterElement.addEventListener('change', onFiltersChangeDebounce);
 
   var onSuccess = function (res) {
     data = res;
