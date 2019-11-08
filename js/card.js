@@ -39,9 +39,7 @@
     }
 
     cardElement.querySelector('.popup__description').textContent = dataObj.offer.description;
-
     cardElement.querySelector('.popup__avatar').src = dataObj.author.avatar;
-
     cardElement.querySelector('.popup__close').addEventListener('click', function () {
       closePopup();
     });

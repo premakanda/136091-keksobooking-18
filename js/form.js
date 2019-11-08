@@ -117,7 +117,6 @@
 
   var onSuccess = function () {
     window.notification.showSuccess();
-    // deactivate();
     window.map.inactivatePage();
   };
 
@@ -128,7 +127,6 @@
   // Сброс данных
   var filter = document.querySelector('.map__filters');
   var resetAllPageValues = function () {
-    // adForm.reset();
     filter.reset();
     deactivate();
     titleElement.style.border = 'none';

@@ -29,7 +29,7 @@
     userMapPins.appendChild(fragment);
   };
 
-  var clear = function () {
+  var clearPin = function () {
     var pins = userMapPins.querySelectorAll('.map__pin:not(.map__pin--main');
     pins.forEach(function (item) {
       item.remove();
@@ -38,7 +38,7 @@
 
   window.pin = {
     render: renderMapPins,
-    clear: clear
+    clear: clearPin
   };
 
 })();
