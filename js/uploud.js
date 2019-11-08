@@ -10,11 +10,11 @@
   var offerPhotoElement = document.querySelector('.ad-form__upload input[type=file]');
   var offerPreviewElement = document.querySelector('.ad-form__photo');
 
-  var createPhotoElement = function () {
-    var elementPicture = document.createElement('img');
-    elementPicture.alt = 'Фотография';
-    return elementPicture;
-  };
+  // var createPhotoElement = function () {
+  //   var elementPicture = document.createElement('img');
+  //   elementPicture.alt = 'Фотография';
+  //   return elementPicture;
+  // };
 
   var loadFile = function (chooser, photo) {
     var file = chooser.files[0];
@@ -39,7 +39,7 @@
   };
 
   var onHouseLoad = function () {
-    loadFile(offerPhotoElement, offerPreviewElement.appendChild(createPhotoElement()));
+    loadFile(offerPhotoElement, offerPreviewElement);
   };
 
   avatarElement.addEventListener('change', onAvatarLoad);
