@@ -57,27 +57,27 @@
 
 
   // Цена
-  var changeMinPriceHandler = function () {
+  var onChangeMinPrice = function () {
     var currentValue = roomTypeElement.value;
     priceElement.min = types[currentValue].minPrice;
     priceElement.placeholder = types[currentValue].minPrice;
   };
 
-  roomTypeElement.addEventListener('change', changeMinPriceHandler);
+  roomTypeElement.addEventListener('change', onChangeMinPrice);
 
-  changeMinPriceHandler();
+  onChangeMinPrice();
 
   // Соответствие времени заезда и выезда
-  var changeTimeOutHandler = function () {
+  var OnChangeTimeOut = function () {
     timeOutElement.value = timeInElement.value;
   };
 
-  var changeTimeInHandler = function () {
+  var OnChangeTimeIn = function () {
     timeInElement.value = timeOutElement.value;
   };
 
-  timeInElement.addEventListener('change', changeTimeOutHandler);
-  timeOutElement.addEventListener('change', changeTimeInHandler);
+  timeInElement.addEventListener('change', OnChangeTimeOut);
+  timeOutElement.addEventListener('change', OnChangeTimeIn);
 
   // Заголовок объявления
   var checkCapacity = function (i) {
@@ -96,9 +96,30 @@
     }
   });
 
+  var deactivateFields = function (selects) {
+    selects.forEach(function (select) {
+      select.setAttribute('disabled', true);
+    });
+  };
+
+  var mapFilters = document.querySelectorAll('.map__filter');
+  var mapFormAvatar = document.querySelector('.ad-form-header');
+  var mapFormInputs = document.querySelectorAll('.ad-form__element');
+  var roomsNumber = document.querySelector('select[name="rooms"]');
+  var capacityNumber = document.querySelector('select[name="capacity"]');
+
   var deactivate = function () {
     adForm.classList.add('ad-form--disabled');
     adForm.reset();
+    window.map.inActivatePage();
+    mapFormAvatar.setAttribute('disabled', true);
+    deactivateFields(mapFilters);
+    deactivateFields(mapFormInputs);
+    mapFormInputs.forEach(function (elem) {
+      elem.style = '';
+    });
+    roomsNumber.style = '';
+    capacityNumber.style = '';
   };
 
   var activate = function () {
@@ -107,12 +128,6 @@
 
   var setAddress = function (coords) {
     addressElement.value = coords[0] + ', ' + coords[1];
-  };
-
-  window.form = {
-    deactivate: deactivate,
-    activate: activate,
-    setAddress: setAddress
   };
 
   var onSuccess = function () {
@@ -148,5 +163,71 @@
     var data = new FormData(adForm);
     window.backend.send(data, onSuccess, onError, onLoad);
   });
+
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+  var avatarPreviewElement = document.querySelector('.ad-form-header__preview img');
+  var avatarChoserElement = document.querySelector('#avatar');
+  var roomsChoserElement = document.querySelector('#images');
+
+  var createPhotoPrewiev = function () {
+    var divElement = document.createElement('div');
+    divElement.className = 'ad-form__photo';
+    var imgElement = document.createElement('img');
+    imgElement.setAttribute('src', 'img/muffin-grey.svg');
+    imgElement.setAttribute('alt', 'Фото помещения');
+    divElement.append(imgElement);
+    var roomUploadElement = document.querySelector('.ad-form__upload');
+    roomUploadElement.after(divElement);
+    return imgElement;
+  };
+
+  var addLoadListener = function (reader, choser) {
+    reader.addEventListener('load', function () {
+      if (choser === roomsChoserElement) {
+        var prewievRooms = createPhotoPrewiev();
+        prewievRooms.src = reader.result;
+      } else {
+        avatarPreviewElement.src = reader.result;
+      }
+    });
+  };
+
+  var loadPhoto = function (choser) {
+    Array.from(choser.files).forEach(function (item) {
+      var file = item;
+
+      if (file) {
+        var fileName = file.name.toLowerCase();
+      }
+
+      var matches = FILE_TYPES.some(function (type) {
+        return fileName.endsWith(type);
+      });
+
+      if (matches) {
+        var reader = new FileReader();
+
+        reader.readAsDataURL(file);
+
+        addLoadListener(reader, choser);
+      }
+    });
+  };
+
+  avatarChoserElement.addEventListener('change', function () {
+    loadPhoto(avatarChoserElement);
+  });
+
+  roomsChoserElement.addEventListener('change', function () {
+    loadPhoto(roomsChoserElement);
+  });
+
+  window.form = {
+    deactivate: deactivate,
+    activate: activate,
+    setAddress: setAddress
+  };
+
 
 })();

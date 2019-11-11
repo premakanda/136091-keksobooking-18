@@ -36,7 +36,7 @@
     window.backend.load(onSuccess, onError);
   };
 
-  var inactivatePage = function () {
+  var inActivatePage = function () {
     userMap.classList.add('map--faded');
     window.pin.clear();
     window.form.deactivate();
@@ -49,9 +49,7 @@
   });
 
   pinMain.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.data.ENTER_KEYCODE) {
-      activatePage();
-    }
+    window.util.onEnterEvt(evt, activatePage);
   });
 
   var filterByType = function (item) {
@@ -103,7 +101,7 @@
       .slice(0, MAX_PIN);
   };
 
-  var onFiltersChangeDebounce = window.debounce(function () {
+  var onFiltersChangeDebounce = window.util.debounce(function () {
     window.pin.clear();
     window.pin.render(filterData(data));
   });
@@ -119,10 +117,10 @@
     window.notification.showError(error);
   };
 
-  inactivatePage();
+  inActivatePage();
 
   window.map = {
     activatePage: activatePage,
-    inactivatePage: inactivatePage
+    inActivatePage: inActivatePage
   };
 })();

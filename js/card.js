@@ -48,9 +48,8 @@
   };
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.data.ESC_KEYCODE) {
-      closePopup();
-    }
+    window.util.onEscEvt(evt, closePopup);
+    window.util.onEscEvt(evt, window.pin.delActivePin);
   };
 
   window.card = {
