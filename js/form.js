@@ -96,13 +96,12 @@
     }
   });
 
-  var deactivateFields = function (selects) {
-    selects.forEach(function (select) {
-      select.setAttribute('disabled', true);
+  var setDisabled = function (list, value) {
+    list.forEach(function (item) {
+      item.disabled = value;
     });
   };
 
-  var mapFilters = document.querySelectorAll('.map__filter');
   var mapFormAvatar = document.querySelector('.ad-form-header');
   var mapFormInputs = document.querySelectorAll('.ad-form__element');
   var roomsNumber = document.querySelector('select[name="rooms"]');
@@ -111,10 +110,8 @@
   var deactivate = function () {
     adForm.classList.add('ad-form--disabled');
     adForm.reset();
-    window.map.inActivatePage();
     mapFormAvatar.setAttribute('disabled', true);
-    deactivateFields(mapFilters);
-    deactivateFields(mapFormInputs);
+    setDisabled(mapFormInputs, true);
     mapFormInputs.forEach(function (elem) {
       elem.style = '';
     });
@@ -124,6 +121,7 @@
 
   var activate = function () {
     adForm.classList.remove('ad-form--disabled');
+    setDisabled(mapFormInputs, false);
   };
 
   var setAddress = function (coords) {
@@ -132,7 +130,7 @@
 
   var onSuccess = function () {
     window.notification.showSuccess();
-    window.map.inactivatePage();
+    window.map.inActivatePage();
   };
 
   var onError = function (errorMassage) {
@@ -140,10 +138,9 @@
   };
 
   // Сброс данных
-  var filter = document.querySelector('.map__filters');
   var resetAllPageValues = function () {
-    filter.reset();
-    deactivate();
+    window.map.resetFilterValues();
+    window.map.inActivatePage();
     titleElement.style.border = 'none';
     priceElement.style.border = 'none';
   };
@@ -176,6 +173,7 @@
     var imgElement = document.createElement('img');
     imgElement.setAttribute('src', 'img/muffin-grey.svg');
     imgElement.setAttribute('alt', 'Фото помещения');
+    imgElement.style.width = '100%';
     divElement.append(imgElement);
     var roomUploadElement = document.querySelector('.ad-form__upload');
     roomUploadElement.after(divElement);
@@ -228,6 +226,5 @@
     activate: activate,
     setAddress: setAddress
   };
-
 
 })();

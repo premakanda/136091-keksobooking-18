@@ -8,6 +8,11 @@
   var housingGuests = document.querySelector('#housing-guests');
   var filterElement = document.querySelector('.map__filters');
   var featureCheckbox = document.querySelectorAll('#housing-features input');
+  var mapFilters = document.querySelectorAll('.map__filter');
+
+  var resetFilterValues = function () {
+    filterElement.reset();
+  };
 
   var pinMain = document.querySelector('.map__pin--main');
   var data = [];
@@ -39,6 +44,7 @@
   var inActivatePage = function () {
     userMap.classList.add('map--faded');
     window.pin.clear();
+    setdisabled(mapFilters, true);
     window.form.deactivate();
     window.form.setAddress(window.pinMain.getCoords());
     setdisabled(list, true);
@@ -61,7 +67,7 @@
   };
 
   var filterByGuests = function (item) {
-    return housingGuests.value === 'any' ? true : item.offer.guests === parseInt(housingGuests.value, 10);
+    return housingGuests.value === 'any' ? true : item.offer.guests >= parseInt(housingGuests.value, 10);
   };
 
   var filterByPrice = function (add) {
@@ -102,6 +108,7 @@
   };
 
   var onFiltersChangeDebounce = window.util.debounce(function () {
+    window.card.close();
     window.pin.clear();
     window.pin.render(filterData(data));
   });
@@ -121,6 +128,8 @@
 
   window.map = {
     activatePage: activatePage,
-    inActivatePage: inActivatePage
+    inActivatePage: inActivatePage,
+    resetFilterValues: resetFilterValues
   };
+
 })();

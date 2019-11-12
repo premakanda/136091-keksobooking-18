@@ -53,10 +53,11 @@
   };
 
   window.card = {
+    close: closePopup,
     openCard: function (obj) {
       var oldCardElement = mapElement.querySelector('.map__card');
       var cardElement = renderCard(obj);
-      if (oldCardElement) { // если уже есть открытая карточка, просто заменяем ее на новую
+      if (oldCardElement) {
         mapElement.replaceChild(cardElement, oldCardElement);
       } else {
         mapElement.insertBefore(cardElement, mapFiltersElement);
