@@ -39,9 +39,7 @@
     }
 
     cardElement.querySelector('.popup__description').textContent = dataObj.offer.description;
-
     cardElement.querySelector('.popup__avatar').src = dataObj.author.avatar;
-
     cardElement.querySelector('.popup__close').addEventListener('click', function () {
       closePopup();
     });
@@ -50,9 +48,8 @@
   };
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.data.ESC_KEYCODE) {
-      closePopup();
-    }
+    window.util.onEscEvt(evt, closePopup);
+    window.util.onEscEvt(evt, window.pin.delActivePin);
   };
 
   window.card = {

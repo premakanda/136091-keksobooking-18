@@ -17,8 +17,18 @@
     pinElement.addEventListener('click', function () {
       window.card.openCard(obj);
     });
+    pinElement.addEventListener('click', function () {
+      makePinsUnactive();
+      pinElement.classList.add('map__pin--active');
+    });
 
     return pinElement;
+  };
+
+  var makePinsUnactive = function () {
+    document.querySelectorAll('.map__pin').forEach(function (pinItem) {
+      pinItem.classList.remove('map__pin--active');
+    });
   };
 
   var renderMapPins = function (arr) {
@@ -29,16 +39,22 @@
     userMapPins.appendChild(fragment);
   };
 
-  var clear = function () {
+  var clearPin = function () {
     var pins = userMapPins.querySelectorAll('.map__pin:not(.map__pin--main');
     pins.forEach(function (item) {
       item.remove();
     });
   };
 
+  var delActivePin = function () {
+    var activePinElement = document.querySelector('.map__pin--active');
+    activePinElement.classList.remove('map__pin--active');
+  };
+
   window.pin = {
     render: renderMapPins,
-    clear: clear
+    clear: clearPin,
+    delActivePin: delActivePin
   };
 
 })();

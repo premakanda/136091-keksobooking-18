@@ -5,6 +5,7 @@
   var MAIN_PIN_TOP = 130;
   var MAIN_PIN_BOTTOM = 630;
   var MAIN_PIN_HEIGHT = 15;
+  var HEIGHT_TIP = 15;
 
   var pinMain = document.querySelector('.map__pin--main');
 
@@ -71,8 +72,8 @@
   });
 
   var getMainPinCoords = function () {
-    var x = pinMain.offsetLeft + pinMain.offsetWidth / 2;
-    var y = pinMain.offsetTop + pinMain.offsetHeight + 15;
+    var x = Math.floor(pinMain.offsetLeft + pinMain.offsetWidth / 2);
+    var y = Math.floor(pinMain.offsetTop + pinMain.offsetHeight + HEIGHT_TIP);
     return [x, y];
   };
 

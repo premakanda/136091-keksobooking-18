@@ -28,9 +28,7 @@
   };
 
   var onEscPress = function (evt) {
-    if (evt.keyCode === window.utilits.ESC_KEYCODE) {
-      closeMessage();
-    }
+    window.util.onEscEvt(evt, closeMessage);
   };
 
   var onDocumentClick = function () {
