@@ -5,7 +5,6 @@
   var userMapPins = document.querySelector('.map__pins');
   var userPinsTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-  // Отрисовка объявления по шаблону
   var renderPin = function (obj) {
     var pinElement = userPinsTemplate.cloneNode(true);
 
