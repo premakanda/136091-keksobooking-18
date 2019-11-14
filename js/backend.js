@@ -4,7 +4,7 @@
   var POST_URL = 'https://js.dump.academy/keksobooking';
   var GET_URL = POST_URL + '/data';
   var STATUS_OK = 200;
-  var TIMEOUT_MS = 2000;
+  var TIMEOUT_MS = 10000;
   var REQUEST_GET = 'GET';
   var REQUEST_POST = 'POST';
 

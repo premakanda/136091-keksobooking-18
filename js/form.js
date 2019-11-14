@@ -6,7 +6,7 @@
   var TITLE_100 = 'Заголовок объявления не должен превышать 100 символов';
   var VALIDITY_FIELD = 'Обязательное поле';
 
-  var types = {
+  var typeParamsMap = {
     palace: {
       name: 'Дворец',
       minPrice: '10000'
@@ -65,8 +65,8 @@
   // Цена
   var onChangeMinPrice = function () {
     var currentValue = roomTypeElement.value;
-    priceElement.min = types[currentValue].minPrice;
-    priceElement.placeholder = types[currentValue].minPrice;
+    priceElement.min = typeParamsMap[currentValue].minPrice;
+    priceElement.placeholder = typeParamsMap[currentValue].minPrice;
   };
 
   roomTypeElement.addEventListener('change', onChangeMinPrice);
@@ -123,13 +123,12 @@
     });
     roomsNumber.style = '';
     capacityNumber.style = '';
-    window.pinMain.setMapPinMainDefaultCoords();
-    window.map.resetFilterValues();
   };
 
   var activate = function () {
     adForm.classList.remove('ad-form--disabled');
     setDisabled(mapFormInputs, false);
+    mapFormAvatar.removeAttribute('disabled');
   };
 
   var setAddress = function (coords) {
@@ -147,10 +146,7 @@
 
   // Сброс данных
   var resetAllPageValues = function () {
-    window.map.resetFilterValues();
     window.map.inActivatePage();
-    titleElement.style.border = 'none';
-    priceElement.style.border = 'none';
   };
 
   resetButton.addEventListener('click', function () {

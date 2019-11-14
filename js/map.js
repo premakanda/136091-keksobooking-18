@@ -4,7 +4,7 @@
 
   var MAX_PIN = 5;
 
-  var price = {
+  var Price = {
     MIN: 10000,
     MAX: 50000,
     LOW: 'low',
@@ -19,10 +19,6 @@
   var filterElement = document.querySelector('.map__filters');
   var featureCheckbox = document.querySelectorAll('#housing-features input');
   var mapFilters = document.querySelectorAll('.map__filter');
-
-  var resetFilterValues = function () {
-    filterElement.reset();
-  };
 
   var pinMain = document.querySelector('.map__pin--main');
   var data = [];
@@ -49,6 +45,8 @@
     window.form.deactivate();
     window.form.setAddress(window.pinMain.getCoords());
     setdisabled(list, true);
+    filterElement.reset();
+    window.pinMain.resetCoords();
   };
 
   pinMain.addEventListener('mousedown', function () {
@@ -73,12 +71,12 @@
 
   var filterByPrice = function (add) {
     switch (housingPrice.value) {
-      case price.LOW:
-        return add.offer.price < price.MIN;
-      case price.MIDDLE:
-        return add.offer.price >= price.MIN && add.offer.price <= price.MAX;
-      case price.HIGH:
-        return add.offer.price > price.MAX;
+      case Price.LOW:
+        return add.offer.price < Price.MIN;
+      case Price.MIDDLE:
+        return add.offer.price >= Price.MIN && add.offer.price <= Price.MAX;
+      case Price.HIGH:
+        return add.offer.price > Price.MAX;
       default:
         return true;
     }
@@ -129,8 +127,7 @@
 
   window.map = {
     activatePage: activatePage,
-    inActivatePage: inActivatePage,
-    resetFilterValues: resetFilterValues
+    inActivatePage: inActivatePage
   };
 
 })();

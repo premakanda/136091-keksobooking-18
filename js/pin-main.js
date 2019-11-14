@@ -9,13 +9,13 @@
 
   var pinMain = document.querySelector('.map__pin--main');
 
-  var mapPinMainDefaultCoords = {
-    top: 375,
-    left: 570
+  var DefaultCoords = {
+    TOP: 375,
+    LEFT: 570
   };
   var setMapPinMainDefaultCoords = function () {
-    pinMain.style.top = mapPinMainDefaultCoords.top + 'px';
-    pinMain.style.left = mapPinMainDefaultCoords.left + 'px';
+    pinMain.style.top = DefaultCoords.TOP + 'px';
+    pinMain.style.left = DefaultCoords.LEFT + 'px';
   };
 
   var getMainPinCoord = function () {
@@ -88,7 +88,7 @@
 
   window.pinMain = {
     getCoords: getMainPinCoords,
-    setMapPinMainDefaultCoords: setMapPinMainDefaultCoords
+    resetCoords: setMapPinMainDefaultCoords
   };
 
 })();

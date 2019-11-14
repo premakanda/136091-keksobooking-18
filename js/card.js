@@ -29,7 +29,6 @@
       stringFeatures += '<li class="popup__feature popup__feature--' + dataObj.offer.features[i] + '"></li>';
     }
     cardElement.querySelector('.popup__features').innerHTML = stringFeatures;
-    // cardElement.querySelector('.popup__features').appendChild(stringFeatures);
 
     var photosContainer = cardElement.querySelector('.popup__photos');
     photosContainer.innerHTML = '';
