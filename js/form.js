@@ -2,6 +2,31 @@
 
 (function () {
 
+  var TITLE_30 = 'Заголовок объявления должен состоять минимум из 30 символов';
+  var TITLE_100 = 'Заголовок объявления не должен превышать 100 символов';
+  var VALIDITY_FIELD = 'Обязательное поле';
+
+  var types = {
+    palace: {
+      name: 'Дворец',
+      minPrice: '10000'
+    },
+    flat: {
+      name: 'Квартира',
+      minPrice: '1000'
+    },
+    bungalo: {
+      name: 'Бунгало',
+      minPrice: '0'
+    },
+    house: {
+      name: 'Дом',
+      minPrice: '5000'
+    }
+  };
+
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
   // Соответствие количества комнат количеству гостей
   var addressElement = document.querySelector('#address');
   var roomNumberSelect = document.querySelector('#room_number');
@@ -30,25 +55,6 @@
 
   checkRoomsAndGuests();
 
-  var types = {
-    palace: {
-      name: 'Дворец',
-      minPrice: '10000'
-    },
-    flat: {
-      name: 'Квартира',
-      minPrice: '1000'
-    },
-    bungalo: {
-      name: 'Бунгало',
-      minPrice: '0'
-    },
-    house: {
-      name: 'Дом',
-      minPrice: '5000'
-    }
-  };
-
   var titleElement = document.querySelector('#title');
   var priceElement = document.querySelector('#price');
   var roomTypeElement = document.querySelector('#type');
@@ -68,16 +74,16 @@
   onChangeMinPrice();
 
   // Соответствие времени заезда и выезда
-  var OnChangeTimeOut = function () {
+  var onChangeTimeOut = function () {
     timeOutElement.value = timeInElement.value;
   };
 
-  var OnChangeTimeIn = function () {
+  var onChangeTimeIn = function () {
     timeInElement.value = timeOutElement.value;
   };
 
-  timeInElement.addEventListener('change', OnChangeTimeOut);
-  timeOutElement.addEventListener('change', OnChangeTimeIn);
+  timeInElement.addEventListener('change', onChangeTimeOut);
+  timeOutElement.addEventListener('change', onChangeTimeIn);
 
   // Заголовок объявления
   var checkCapacity = function (i) {
@@ -86,11 +92,11 @@
 
   titleElement.addEventListener('invalid', function () {
     if (titleElement.validity.tooShort) {
-      checkCapacity('Заголовок объявления должен состоять минимум из 30 символов');
+      checkCapacity(TITLE_30);
     } else if (titleElement.validity.tooLong) {
-      checkCapacity('Заголовок объявления не должен превышать 100 символов');
+      checkCapacity(TITLE_100);
     } else if (titleElement.validity.valueMissing) {
-      checkCapacity('Обязательное поле');
+      checkCapacity(VALIDITY_FIELD);
     } else {
       checkCapacity('');
     }
@@ -160,8 +166,6 @@
     var data = new FormData(adForm);
     window.backend.send(data, onSuccess, onError, onLoad);
   });
-
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var avatarPreviewElement = document.querySelector('.ad-form-header__preview img');
   var avatarChoserElement = document.querySelector('#avatar');

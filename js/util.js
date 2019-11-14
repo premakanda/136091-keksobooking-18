@@ -5,6 +5,17 @@
   var ENTER_KEYCODE = 13;
   var DEBOUNCE_INTERVAL = 500;
 
+  // var makeReqOnKeyCode = function (evt, action, keyCode) {
+  //   if (evt.keyCode === keyCode) {
+  //     action();
+  //   }
+  // };
+
+  // window.util = {
+  //   onEscEvt: makeReqOnKeyCode(ESC_KEYCODE),
+  //   onEnterEvt: makeReqOnKeyCode(ENTER_KEYCODE)
+  // };
+
   window.util = {
     onEscEvt: function (evt, action) {
       if (evt.keyCode === ESC_KEYCODE) {

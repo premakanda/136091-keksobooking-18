@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  // Перемещение главного пина на карте
+
   var MAIN_PIN_TOP = 130;
   var MAIN_PIN_BOTTOM = 630;
   var MAIN_PIN_HEIGHT = 15;
@@ -11,7 +11,7 @@
 
   var getMainPinCoord = function () {
     var x = pinMain.offsetLeft + pinMain.offsetWidth / 2;
-    var y = pinMain.offsetTop + pinMain.Top + 15;
+    var y = pinMain.offsetTop + pinMain.Top + HEIGHT_TIP;
     return [x, y];
   };
 

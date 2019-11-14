@@ -2,6 +2,16 @@
 
 (function () {
 
+  var MAX_PIN = 5;
+
+  var price = {
+    MIN: 10000,
+    MAX: 50000,
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'high'
+  };
+
   var housingType = document.querySelector('#housing-type');
   var housingPrice = document.querySelector('#housing-price');
   var housingRooms = document.querySelector('#housing-rooms');
@@ -16,15 +26,6 @@
 
   var pinMain = document.querySelector('.map__pin--main');
   var data = [];
-  var MAX_PIN = 5;
-
-  var price = {
-    MIN: 10000,
-    MAX: 50000,
-    LOW: 'low',
-    MIDDLE: 'middle',
-    HIGH: 'high'
-  };
 
   var setdisabled = function (list, value) {
     for (var i = 0; i < list.length; i++) {

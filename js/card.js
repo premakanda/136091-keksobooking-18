@@ -29,6 +29,7 @@
       stringFeatures += '<li class="popup__feature popup__feature--' + dataObj.offer.features[i] + '"></li>';
     }
     cardElement.querySelector('.popup__features').innerHTML = stringFeatures;
+    // cardElement.querySelector('.popup__features').appendChild(stringFeatures);
 
     var photosContainer = cardElement.querySelector('.popup__photos');
     photosContainer.innerHTML = '';
@@ -52,18 +53,20 @@
     window.util.onEscEvt(evt, window.pin.delActivePin);
   };
 
+  var openCard = function (obj) {
+    var oldCardElement = mapElement.querySelector('.map__card');
+    var cardElement = renderCard(obj);
+    if (oldCardElement) {
+      mapElement.replaceChild(cardElement, oldCardElement);
+    } else {
+      mapElement.insertBefore(cardElement, mapFiltersElement);
+      document.addEventListener('keydown', onPopupEscPress);
+    }
+  };
+
   window.card = {
     close: closePopup,
-    openCard: function (obj) {
-      var oldCardElement = mapElement.querySelector('.map__card');
-      var cardElement = renderCard(obj);
-      if (oldCardElement) {
-        mapElement.replaceChild(cardElement, oldCardElement);
-      } else {
-        mapElement.insertBefore(cardElement, mapFiltersElement);
-        document.addEventListener('keydown', onPopupEscPress);
-      }
-    }
+    openCard: openCard
   };
 
 })();
