@@ -9,6 +9,15 @@
 
   var pinMain = document.querySelector('.map__pin--main');
 
+  var mapPinMainDefaultCoords = {
+    top: 375,
+    left: 570
+  };
+  var setMapPinMainDefaultCoords = function () {
+    pinMain.style.top = mapPinMainDefaultCoords.top + 'px';
+    pinMain.style.left = mapPinMainDefaultCoords.left + 'px';
+  };
+
   var getMainPinCoord = function () {
     var x = pinMain.offsetLeft + pinMain.offsetWidth / 2;
     var y = pinMain.offsetTop + pinMain.Top + HEIGHT_TIP;
@@ -78,7 +87,8 @@
   };
 
   window.pinMain = {
-    getCoords: getMainPinCoords
+    getCoords: getMainPinCoords,
+    setMapPinMainDefaultCoords: setMapPinMainDefaultCoords
   };
 
 })();

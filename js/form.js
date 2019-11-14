@@ -123,6 +123,8 @@
     });
     roomsNumber.style = '';
     capacityNumber.style = '';
+    window.pinMain.setMapPinMainDefaultCoords();
+    window.map.resetFilterValues();
   };
 
   var activate = function () {
