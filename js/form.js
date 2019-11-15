@@ -138,8 +138,8 @@
   };
 
   var onSuccess = function () {
-    window.notification.showSuccess();
     window.map.inActivatePage();
+    window.notification.showSuccess();
   };
 
   var onError = function (errorMassage) {
@@ -155,16 +155,10 @@
     resetAllPageValues();
   });
 
-  // Отправка формы на сервер
-  var onLoad = function () {
-    deactivate();
-    window.notification.showSuccess();
-  };
-
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     var data = new FormData(adForm);
-    window.backend.send(data, onSuccess, onError, onLoad);
+    window.backend.send(data, onSuccess, onError);
   });
 
   var avatarPreviewElement = document.querySelector('.ad-form-header__preview img');
