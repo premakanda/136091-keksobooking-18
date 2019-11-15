@@ -27,9 +27,9 @@
     document.addEventListener('keydown', onEscPress);
   };
 
-  var onEscPress = function (evt) {
-    window.util.onEscEvt(evt, closeMessage);
-  };
+  var onEscPress = window.util.createEscHandler(function () {
+    closeMessage();
+  });
 
   var onDocumentClick = function () {
     closeMessage();

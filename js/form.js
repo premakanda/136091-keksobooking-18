@@ -5,6 +5,7 @@
   var TITLE_30 = 'Заголовок объявления должен состоять минимум из 30 символов';
   var TITLE_100 = 'Заголовок объявления не должен превышать 100 символов';
   var VALIDITY_FIELD = 'Обязательное поле';
+  var IMG_AVATAR = 'img/muffin-grey.svg';
 
   var typeParamsMap = {
     palace: {
@@ -115,7 +116,6 @@
 
   var deactivate = function () {
     adForm.classList.add('ad-form--disabled');
-    adForm.reset();
     mapFormAvatar.setAttribute('disabled', true);
     setDisabled(mapFormInputs, true);
     mapFormInputs.forEach(function (elem) {
@@ -123,6 +123,8 @@
     });
     roomsNumber.style = '';
     capacityNumber.style = '';
+    window.pinMain.resetCoords();
+    reset();
   };
 
   var activate = function () {
@@ -168,17 +170,31 @@
   var avatarPreviewElement = document.querySelector('.ad-form-header__preview img');
   var avatarChoserElement = document.querySelector('#avatar');
   var roomsChoserElement = document.querySelector('#images');
+  var photoContainerElement = document.querySelector('.ad-form__photo-container');
 
-  var createPhotoPrewiev = function () {
+  var reset = function () {
+    avatarPreviewElement.src = IMG_AVATAR;
+    var photoElements = photoContainerElement.querySelectorAll('.ad-form__photo');
+    photoElements.forEach(function (item) {
+      item.remove();
+    });
+    addFormPhoto();
+    adForm.reset();
+  };
+
+  var addFormPhoto = function () {
     var divElement = document.createElement('div');
     divElement.className = 'ad-form__photo';
+    return photoContainerElement.appendChild(divElement);
+  };
+
+  var createPhotoPrewiev = function () {
+    var divElement = addFormPhoto();
     var imgElement = document.createElement('img');
-    imgElement.setAttribute('src', 'img/muffin-grey.svg');
+    imgElement.setAttribute('src', IMG_AVATAR);
     imgElement.setAttribute('alt', 'Фото помещения');
     imgElement.style.width = '100%';
     divElement.append(imgElement);
-    var roomUploadElement = document.querySelector('.ad-form__upload');
-    roomUploadElement.after(divElement);
     return imgElement;
   };
 

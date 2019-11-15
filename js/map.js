@@ -53,8 +53,8 @@
     activatePage();
   });
 
-  pinMain.addEventListener('keydown', function (evt) {
-    window.util.onEnterEvt(evt, activatePage);
+  pinMain.addEventListener('click', function () {
+    activatePage();
   });
 
   var filterByType = function (item) {

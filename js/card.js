@@ -12,6 +12,7 @@
     if (cardElement) {
       cardElement.remove();
       document.removeEventListener('keydown', onPopupEscPress);
+      window.pin.delActivePin();
     }
   };
 
@@ -47,10 +48,9 @@
     return cardElement;
   };
 
-  var onPopupEscPress = function (evt) {
-    window.util.onEscEvt(evt, closePopup);
-    window.util.onEscEvt(evt, window.pin.delActivePin);
-  };
+  var onPopupEscPress = window.util.createEscHandler(function () {
+    closePopup();
+  });
 
   var openCard = function (obj) {
     var oldCardElement = mapElement.querySelector('.map__card');
