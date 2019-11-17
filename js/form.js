@@ -62,7 +62,6 @@
   var timeInElement = document.querySelector('#timein');
   var timeOutElement = document.querySelector('#timeout');
 
-
   // Цена
   var onChangeMinPrice = function () {
     var currentValue = roomTypeElement.value;
@@ -168,12 +167,16 @@
 
   var reset = function () {
     avatarPreviewElement.src = IMG_AVATAR;
+    resetPhoto();
+    addFormPhoto();
+    adForm.reset();
+  };
+
+  var resetPhoto = function () {
     var photoElements = photoContainerElement.querySelectorAll('.ad-form__photo');
     photoElements.forEach(function (item) {
       item.remove();
     });
-    addFormPhoto();
-    adForm.reset();
   };
 
   var addFormPhoto = function () {
@@ -187,7 +190,8 @@
     var imgElement = document.createElement('img');
     imgElement.setAttribute('src', IMG_AVATAR);
     imgElement.setAttribute('alt', 'Фото помещения');
-    imgElement.style.width = '100%';
+    imgElement.style.maxWidth = '100%';
+    imgElement.style.height = '100%';
     divElement.append(imgElement);
     return imgElement;
   };
@@ -230,6 +234,7 @@
   });
 
   roomsChoserElement.addEventListener('change', function () {
+    resetPhoto();
     loadPhoto(roomsChoserElement);
   });
 

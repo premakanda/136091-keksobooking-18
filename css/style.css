@@ -1248,3 +1248,15 @@ fieldset {
   outline: none;
   opacity: 0.6;
 }
+
+.ad-form__photo {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 70px;
+  height: 70px;
+  background-color: #e4e4de;
+  border-radius: 5px;
+}
