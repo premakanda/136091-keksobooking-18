@@ -16,6 +16,7 @@
     buttonError.addEventListener('click', function () {
       closeMessage();
     });
+    document.addEventListener('keydown', onEscPress);
   };
 
   var showSuccess = function () {
@@ -48,4 +49,5 @@
     showError: onError,
     showSuccess: showSuccess
   };
+
 })();

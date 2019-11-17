@@ -12,7 +12,7 @@
     if (cardElement) {
       cardElement.remove();
       document.removeEventListener('keydown', onPopupEscPress);
-      window.pin.delActivePin();
+      window.pin.removeActiveClass();
     }
   };
 
@@ -65,7 +65,7 @@
 
   window.card = {
     close: closePopup,
-    openCard: openCard
+    open: openCard
   };
 
 })();

@@ -47,6 +47,7 @@
     setdisabled(list, true);
     filterElement.reset();
     window.pinMain.resetCoords();
+    window.card.close();
   };
 
   pinMain.addEventListener('mousedown', function () {

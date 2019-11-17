@@ -7,7 +7,7 @@
   var createEscHandler = function (action) {
     return function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
-        action.apply(arguments);
+        action.apply(null, arguments);
       }
     };
   };

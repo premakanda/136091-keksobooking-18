@@ -14,20 +14,21 @@
     pinElement.querySelector('img').alt = obj.offer.title;
 
     pinElement.addEventListener('click', function () {
-      window.card.openCard(obj);
+      window.card.open(obj);
     });
     pinElement.addEventListener('click', function () {
-      makePinsUnactive();
+      removeActiveClass();
       pinElement.classList.add('map__pin--active');
     });
 
     return pinElement;
   };
 
-  var makePinsUnactive = function () {
-    document.querySelectorAll('.map__pin').forEach(function (pinItem) {
-      pinItem.classList.remove('map__pin--active');
-    });
+  var removeActiveClass = function () {
+    var activePinElement = document.querySelector('.map__pin--active');
+    if (activePinElement) {
+      activePinElement.classList.remove('map__pin--active');
+    }
   };
 
   var renderMapPins = function (arr) {
@@ -45,15 +46,10 @@
     });
   };
 
-  var delActivePin = function () {
-    var activePinElement = document.querySelector('.map__pin--active');
-    activePinElement.classList.remove('map__pin--active');
-  };
-
   window.pin = {
     render: renderMapPins,
     clear: clearPin,
-    delActivePin: delActivePin
+    removeActiveClass: removeActiveClass
   };
 
 })();
